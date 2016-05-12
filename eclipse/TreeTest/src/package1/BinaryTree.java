@@ -82,7 +82,44 @@ public class BinaryTree {
 		}
 		return out;
 	}
+	/*This function here will create another tree with difference*/
+	boolean equals(BinaryTree T1, BinaryTree T2)
+	{
+		/*def equals(T1, T2):
+			  if not compareNode(T1, T2):
+			    return False
+			  # se passamos pela comparação rasa e T1
+			  # é folha, então os nós são iguais
+			  if len(T1.children) == 0:
+			    return True
+			  # comparação profunda
+			  children1 = sort(T1.children)
+			  children2 = sort(T2.children)
+			  for i in 0..len(children1)-1:
+			    if not equals(children1[i], children2[i]):
+			      return False
+			  return True
+		*/
+		return true;
 
+	}
+    boolean identicalTrees(BinaryTree a, BinaryTree b) {
+        
+        /*1. both empty */
+        if (a == null && b == null) {
+            return true;
+        }
+ 
+        /* 2. both non-empty -> compare them */
+        if (a != null && b != null) {
+            return (a.fNameNode == b.fNameNode
+                    && identicalTrees(a.fLeft, b.fLeft)
+                    && identicalTrees(a.fRight, b.fRight));
+        }
+ 
+        /* 3. one empty, one not -> false */
+        return false;
+    }
 	public ArrayList<Integer> PreOrder(BinaryTree tree) {
 
 		System.out.println("x");
