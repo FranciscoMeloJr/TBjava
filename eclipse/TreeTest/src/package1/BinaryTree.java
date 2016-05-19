@@ -2,6 +2,8 @@ package package1;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -82,27 +84,50 @@ public class BinaryTree {
 		}
 		return out;
 	}
-	/*This function here will create another tree with difference*/
+	
+	//Compare node:
+	boolean compareNode(BinaryTree N1 ,BinaryTree N2)
+	{
+		  return N1.fInformation == N1.fInformation;
+	}
+	
+	//This function here compare 2 binary tree*/
 	boolean equals(BinaryTree T1, BinaryTree T2)
 	{
-		/*def equals(T1, T2):
-			  if not compareNode(T1, T2):
-			    return False
-			  # se passamos pela comparação rasa e T1
-			  # é folha, então os nós são iguais
-			  if len(T1.children) == 0:
-			    return True
-			  # comparação profunda
-			  children1 = sort(T1.children)
-			  children2 = sort(T2.children)
-			  for i in 0..len(children1)-1:
-			    if not equals(children1[i], children2[i]):
-			      return False
-			  return True
-		*/
+		//def equals(T1, T2):
+		if(compare(T1, T2))
+			return false;
+		// if is successful for flat comparison 
+		// if it is leaf it is equal
+		if (T1.fInformation == null && T2.fInformation == null)
+			return true;
+		//Deep comparison:
+
+		if (!equals(T1.fLeft, T1.fLeft))
+			return false;
+		
+		if (!equals(T1.fRight, T1.fRight))
+			return false;
 		return true;
 
 	}
+	//Level order traversal
+	void  levelOrderTraversal(BinaryTree startNode) {
+		System.out.print("levelOrderTraversal");
+		  Queue<BinaryTree> queue= new LinkedList<BinaryTree>();  
+		  queue.add(startNode);  
+		  while(!queue.isEmpty())  
+		  {  
+		   BinaryTree tempNode=queue.poll();  
+		   System.out.print(tempNode.fInformation);  
+		   if(tempNode.fLeft!=null)  
+			  queue.add(tempNode.fLeft);  
+		   if(tempNode.fRight!=null)  
+			  queue.add(tempNode.fRight);  
+		  }  
+    }  
+
+		
     boolean identicalTrees(BinaryTree a, BinaryTree b) {
         
         /*1. both empty */

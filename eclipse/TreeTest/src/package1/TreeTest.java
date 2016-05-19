@@ -9,6 +9,7 @@ import java.util.Collections;
 import org.junit.Test;
 
 import package1.BinaryTree.ITreeVisitor;
+import package1.BinaryTree;
 
 /**
  *
@@ -44,7 +45,8 @@ public class TreeTest {
         right.addNodeL(rightleft);
         
         BinaryTree root = new BinaryTree (left, right); 
-       
+        BinaryTree root2 = new BinaryTree (left, right);
+        
         root.PosOrder(root);
         
         Integer[] expected = new Integer[]{ 4, 1, 6, 0, 5, 2, 3 };
@@ -76,6 +78,9 @@ public class TreeTest {
         	int b = actual.get(i);
         	assertTrue(a == b);
         }
+        
+        root.levelOrderTraversal(root);
+        root2.levelOrderTraversal(root);
         
         assertTrue("some test", true);
         
