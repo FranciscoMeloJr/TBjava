@@ -79,7 +79,7 @@ public class TreeTest {
 					
 				Queue<Node> result = null; 	
 				
-				while(!Q1.isEmpty() && !Q1.isEmpty())
+				while(!Q1.isEmpty() && !Q2.isEmpty())
 				{
 					result.add(Node.minus(Q1.poll(),Q1.poll()));
 				}
