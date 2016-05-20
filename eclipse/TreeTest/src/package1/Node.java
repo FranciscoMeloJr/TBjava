@@ -2,6 +2,7 @@ package package1;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -10,7 +11,7 @@ import java.util.Stack;
  *
  * @author francisco
  */
-public class Node {
+public class Node implements Comparator<Node>, Comparable<Node> {
 	ArrayList<Integer> fInformation;
 	String fNameNode;
 	Node fLeft;
@@ -95,7 +96,7 @@ public class Node {
 	boolean equals(Node T1, Node T2)
 	{
 		//def equals(T1, T2):
-		if(compare(T1, T2))
+		if(compare(T1, T2) == 0)
 			return false;
 		// if is successful for flat comparison 
 		// if it is leaf it is equal
@@ -338,7 +339,7 @@ public class Node {
 		return temp;
 	}
 
-	// Compare:
+	/* Compare:
 	public static boolean compare(Node A, Node B) {
 		ArrayList<Integer> temp1 = Pos(A);
 		ArrayList<Integer> temp2 = Pos(B);
@@ -360,5 +361,27 @@ public class Node {
 			return false;
 		}
 
+	}*/
+
+	@Override
+	public int compareTo(Node d) {
+		return (this.fNameNode).compareTo(d.fNameNode);
+	}
+
+	@Override
+	public int compare(Node node1, Node node2) {
+
+		int compare = node1.compareTo(node2);
+		if (compare < 0){
+		    System.out.println(node1+" is before "+node2);
+		}
+		else if (compare > 0) {
+		    System.out.println(node2+" is before "+node1);
+		}
+		else {
+		    System.out.println(node2+" is same as "+node1);
+		}
+		
+		return compare;
 	}
 }
