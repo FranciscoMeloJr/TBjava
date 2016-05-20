@@ -5,11 +5,12 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Queue;
 
 import org.junit.Test;
 
-import package1.BinaryTree.ITreeVisitor;
-import package1.BinaryTree;
+import package1.Node.ITreeVisitor;
+import package1.Node;
 
 /**
  *
@@ -22,7 +23,7 @@ public class TreeTest {
 		public int fCount = 0;
 		
 		@Override
-		public void visit(BinaryTree node) {
+		public void visit(Node node) {
 			fCount++;
 		}
 		
@@ -32,37 +33,62 @@ public class TreeTest {
 	public void testCreateTree() {
         System.out.println("Test");
 
-        BinaryTree left = new BinaryTree (1); 
-        BinaryTree right = new BinaryTree (2); 
-        BinaryTree rightright = new BinaryTree (3);
-        BinaryTree leftleft = new BinaryTree (4);
-        BinaryTree rightleft = new BinaryTree (5);
-        BinaryTree leftright = new BinaryTree (6);
+        Node left = new Node(1); 
+        Node right = new Node(2); 
+        Node rightright = new Node(3);
+        Node leftleft = new Node(4);
+        Node rightleft = new Node(5);
+        Node leftright = new Node(6);
         
         left.addNodeL(leftleft);
         left.addNodeR(leftright);
         right.addNodeR(rightright);
         right.addNodeL(rightleft);
         
-        BinaryTree root = new BinaryTree (left, right); 
-        BinaryTree root2 = new BinaryTree (left, right);
+        Node root = new Node (left, right); 
+        Node root2 = new Node (left, right);
         
         root.PosOrder(root);
         
         Integer[] expected = new Integer[]{ 4, 1, 6, 0, 5, 2, 3 };
         final ArrayList<Integer> actual = new ArrayList<>();
-        BinaryTree.printIn(root, new ITreeVisitor() {
+        Node.printIn(root, new ITreeVisitor() {
 
 			@Override
-			public void visit(BinaryTree node) {
+			public void visit(Node node) {
 				actual.addAll(node.fInformation);
 				System.out.println("visit " + node.fInformation.toString());
 			}
-        	
+			/*
+			 * the level-order traversal logic should do the sorting
+				doLevelOrderTraversal(root1, root2):
+				queue1.add(root1)
+				queue2.add(root2)
+				visitNode(queue1.dequeue(), queue2.dequeue())
+				do that until queue1 or queue2 has items 
+				(in fact, you should compare the node labels, because the visitor should receive nodes with same labels only)
+				you add all children of visited nodes
+				sort and repeat
+			 * 
+			 * */
+			public void visitNode(Node tree1, Node tree2) {
+				//actual.addAll(node.fInformation);
+				//System.out.println("visit " + node.fInformation.toString());
+				Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
+				Queue<Node> Q2 = Node.levelOrderTraversal(tree2);
+					
+				Queue<Node> result = null; 	
+				
+				while(!Q1.isEmpty() && !Q1.isEmpty())
+				{
+					result.add(Node.minus(Q1.poll(),Q1.poll()));
+				}
+			}
+
         });
         
         CounterVisitor counterVisitor = new CounterVisitor();
-        BinaryTree.printIn(root, counterVisitor);
+        Node.printIn(root, counterVisitor);
         
         System.out.println(Arrays.toString(expected));
         System.out.println(actual);

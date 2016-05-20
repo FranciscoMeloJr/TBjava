@@ -10,32 +10,32 @@ import java.util.Stack;
  *
  * @author francisco
  */
-public class BinaryTree {
+public class Node {
 	ArrayList<Integer> fInformation;
 	String fNameNode;
-	BinaryTree fLeft;
-	BinaryTree fRight;
+	Node fLeft;
+	Node fRight;
 
 	public interface ITreeVisitor {
-		public void visit(BinaryTree node);
+		public void visit(Node node);
 	}
 
-	public BinaryTree() {
+	public Node() {
 		this(0, null, null);
 	}
 
-	public BinaryTree(int cargo, BinaryTree left, BinaryTree right) {
+	public Node(int cargo, Node left, Node right) {
 		fInformation = new ArrayList<>();
 		fInformation.add(cargo);
 		fLeft = left;
 		fRight = right;
 	}
 
-	public BinaryTree(BinaryTree left, BinaryTree right) {
+	public Node(Node left, Node right) {
 		this(0, left, right);
 	}
 
-	public BinaryTree(int a) {
+	public Node(int a) {
 		this(a, null, null);
 	}
 
@@ -43,19 +43,19 @@ public class BinaryTree {
 		fInformation.add(a);
 	}
 
-	void addNodeR(BinaryTree tree) {
+	void addNodeR(Node tree) {
 		fRight = tree;
 	}
 
 	// Inorder:
-	public ArrayList<Integer> Inorder(BinaryTree tree) {
+	public ArrayList<Integer> Inorder(Node tree) {
 
 		System.out.println("x");
-		Stack<BinaryTree> fstack = new Stack();
+		Stack<Node> fstack = new Stack();
 		ArrayList<Integer> out = new ArrayList<>();
 
 		fstack.push(tree);
-		BinaryTree froot = tree.fLeft;
+		Node froot = tree.fLeft;
 
 		out.addAll(froot.fInformation);
 		// System.out.println(froot.fInformation);
@@ -86,13 +86,13 @@ public class BinaryTree {
 	}
 	
 	//Compare node:
-	boolean compareNode(BinaryTree N1 ,BinaryTree N2)
+	boolean compareNode(Node N1 ,Node N2)
 	{
 		  return N1.fInformation == N1.fInformation;
 	}
 	
 	//This function here compare 2 binary tree*/
-	boolean equals(BinaryTree T1, BinaryTree T2)
+	boolean equals(Node T1, Node T2)
 	{
 		//def equals(T1, T2):
 		if(compare(T1, T2))
@@ -110,25 +110,9 @@ public class BinaryTree {
 			return false;
 		return true;
 
-	}
-	//Level order traversal
-	void  levelOrderTraversal(BinaryTree startNode) {
-		System.out.print("levelOrderTraversal");
-		  Queue<BinaryTree> queue= new LinkedList<BinaryTree>();  
-		  queue.add(startNode);  
-		  while(!queue.isEmpty())  
-		  {  
-		   BinaryTree tempNode=queue.poll();  
-		   System.out.print(tempNode.fInformation);  
-		   if(tempNode.fLeft!=null)  
-			  queue.add(tempNode.fLeft);  
-		   if(tempNode.fRight!=null)  
-			  queue.add(tempNode.fRight);  
-		  }  
-    }  
-
-		
-    boolean identicalTrees(BinaryTree a, BinaryTree b) {
+	} 
+	
+    boolean identicalTrees(Node a, Node b) {
         
         /*1. both empty */
         if (a == null && b == null) {
@@ -145,13 +129,13 @@ public class BinaryTree {
         /* 3. one empty, one not -> false */
         return false;
     }
-	public ArrayList<Integer> PreOrder(BinaryTree tree) {
+	public ArrayList<Integer> PreOrder(Node tree) {
 
 		System.out.println("x");
-		Stack<BinaryTree> fstack = new Stack();
+		Stack<Node> fstack = new Stack();
 		ArrayList<Integer> out = new ArrayList<>();
 
-		BinaryTree froot = tree;
+		Node froot = tree;
 		fstack.push(froot);
 
 		while (fstack.size() > 0) {
@@ -169,16 +153,16 @@ public class BinaryTree {
 		return out;
 	}
 
-	public ArrayList<Integer> PosOrder(BinaryTree root) {
-		Stack<BinaryTree> S = new Stack<>();
+	public ArrayList<Integer> PosOrder(Node root) {
+		Stack<Node> S = new Stack<>();
 		ArrayList<Integer> out = new ArrayList<>();
-		BinaryTree fprev = root;
+		Node fprev = root;
 
 		S.push(root);
-		BinaryTree prev = null;
+		Node prev = null;
 
 		while (!S.isEmpty()) {
-			BinaryTree fcurrent = S.peek();
+			Node fcurrent = S.peek();
 
 			if (prev == null || prev.fLeft == fcurrent || prev.fRight == fcurrent) {
 				if (fcurrent.fLeft != null) {
@@ -217,7 +201,7 @@ public class BinaryTree {
 		return out;
 	}
 
-	void addNodeL(BinaryTree tree) {
+	void addNodeL(Node tree) {
 		fLeft = tree;
 	}
 
@@ -225,9 +209,56 @@ public class BinaryTree {
 		int index = fInformation.indexOf(a);
 		fInformation.remove(index);
 	}
-
+	
+	//Operation minus:
+	public static Node minus(Node node1, Node node2) {
+			
+			Node temp = new Node();
+			ArrayList<Integer> metricsNode1;
+			ArrayList<Integer> metricsNode2;
+			ArrayList<Integer> result = new ArrayList<>();
+			
+			metricsNode1 = node1.fInformation;
+			metricsNode2 = node2.fInformation;
+			if(node1.fNameNode == node2.fNameNode)
+			{
+				for(int i = 0; i < metricsNode1.size(); i++)
+					result.add(metricsNode1.get(i) - metricsNode2.get(i));
+				temp.fInformation = result;
+			}
+			
+			return temp;
+    }
+	//Level order traversal
+	public static Queue<Node> levelOrderTraversal(Node startNode) {
+			System.out.print("levelOrderTraversal");
+			  Queue<Node> queue= new LinkedList<Node>();
+			  Queue<Node> result = new LinkedList<Node>();
+			  result = queue;
+			  queue.add(startNode);
+			  
+			  while(!queue.isEmpty())  
+			  {  
+			   Node tempNode = queue.poll();
+			   result.add(tempNode);
+			   System.out.print(tempNode.fInformation);  
+			   if(tempNode.fLeft!=null)  
+				  queue.add(tempNode.fLeft);  
+			   if(tempNode.fRight!=null)  
+				  queue.add(tempNode.fRight);  
+			  }  
+			  return result;
+	}
+	//Sort
+	//Level order traversal
+	public static Queue<Node> Sort(Node startNode) {
+		Queue<Node> temp= new LinkedList<Node>();
+		 //java.util.Collections.sort(listOfCountryNames);
+		
+		return temp;
+	}
 	// Pos order:
-	public static void printPos(BinaryTree tree) {
+	public static void printPos(Node tree) {
 		if (tree == null)
 			return;
 		System.out.print(tree.fInformation);
@@ -237,7 +268,7 @@ public class BinaryTree {
 	}
 
 	// Pre order:
-	public static void printPre(BinaryTree tree) {
+	public static void printPre(Node tree) {
 		if (tree == null)
 			return;
 		System.out.print(tree.fInformation);
@@ -246,7 +277,7 @@ public class BinaryTree {
 	}
 
 	// In order:
-	public static void printIn(BinaryTree tree, ITreeVisitor visitor) {
+	public static void printIn(Node tree, ITreeVisitor visitor) {
 		if (tree == null)
 			return;
 		printIn(tree.fLeft, visitor);
@@ -257,7 +288,7 @@ public class BinaryTree {
 	}
 
 	// In order:
-	public static void printIn(BinaryTree tree) {
+	public static void printIn(Node tree) {
 		if (tree == null)
 			return;
 		printIn(tree.fLeft);
@@ -268,7 +299,7 @@ public class BinaryTree {
 	}
 
 	// In order:
-	public static ArrayList<Integer> In(BinaryTree tree) {
+	public static ArrayList<Integer> In(Node tree) {
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		if (tree == null) {
 			return temp;
@@ -281,7 +312,7 @@ public class BinaryTree {
 	}
 
 	// Pre order:
-	public static ArrayList<Integer> Pre(BinaryTree tree) {
+	public static ArrayList<Integer> Pre(Node tree) {
 		ArrayList<Integer> temp = new ArrayList<>();
 		if (tree == null) {
 			return temp;
@@ -294,7 +325,7 @@ public class BinaryTree {
 	}
 
 	// Pos:
-	public static ArrayList<Integer> Pos(BinaryTree tree) {
+	public static ArrayList<Integer> Pos(Node tree) {
 		ArrayList<Integer> temp = new ArrayList<>();
 		if (tree == null) {
 			return temp;
@@ -308,7 +339,7 @@ public class BinaryTree {
 	}
 
 	// Compare:
-	public static boolean compare(BinaryTree A, BinaryTree B) {
+	public static boolean compare(Node A, Node B) {
 		ArrayList<Integer> temp1 = Pos(A);
 		ArrayList<Integer> temp2 = Pos(B);
 

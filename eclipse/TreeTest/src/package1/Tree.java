@@ -56,7 +56,7 @@ public class Tree {
  
     } 
         //Pre order:
-        public static void printPre (BinaryTree tree) { 
+        public static void printPre (Node tree) { 
             if (tree == null) 
                 return; 
             System.out.print(tree.fInformation); 
@@ -64,7 +64,7 @@ public class Tree {
             printPre(tree.fRight); 
     } 
         //In order:
-        public static void printIn  (BinaryTree tree) { 
+        public static void printIn  (Node tree) { 
             if (tree == null) 
                 return; 
             printIn(tree.fLeft);  
@@ -75,7 +75,7 @@ public class Tree {
     } 
 
         //In order:
-        public static  ArrayList In (BinaryTree tree) { 
+        public static  ArrayList In (Node tree) { 
             ArrayList temp = new ArrayList(); 
             if (tree == null) 
             {
@@ -91,7 +91,7 @@ public class Tree {
         }
         
         //Pre order:
-        public static  ArrayList Pre (BinaryTree tree) { 
+        public static  ArrayList Pre (Node tree) { 
             ArrayList temp = new ArrayList(); 
             if (tree == null) 
             {
@@ -107,7 +107,7 @@ public class Tree {
         }
         
         //Pos:
-        public static  ArrayList Pos (BinaryTree tree) { 
+        public static  ArrayList Pos (Node tree) { 
             ArrayList temp = new ArrayList(); 
             if (tree == null) 
             {
@@ -124,7 +124,7 @@ public class Tree {
         }
        
         //Compare:
-        public static boolean compare(BinaryTree A, BinaryTree B)
+        public static boolean compare(Node A, Node B)
         {    
             ArrayList temp1 = Pos(A);
             ArrayList temp2 = Pos(B);
