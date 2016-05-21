@@ -5,9 +5,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 import org.junit.Test;
 
@@ -61,35 +58,6 @@ public class TreeTest {
 				actual.addAll(node.fInformation);
 				System.out.println("visit " + node.fInformation.toString());
 			}
-			/*
-			 the level-order traversal logic should do the sorting
-			 doLevelOrderTraversal(root1, root2):
-			 queue1.add(root1)
-			 queue2.add(root2)
-			 visitNode(queue1.dequeue(), queue2.dequeue())
-			 do that until queue1 or queue2 has items 
-			 (in fact, you should compare the node labels, because the visitor should receive nodes with same labels only)
-			 you add all children of visited nodes
-			 sort and repeat
-			  
-			 * */
-			public void visitNode(Node tree1, Node tree2) {
-				//public Queue<Node> visitNode(Node tree1, Node tree2) {
-				ArrayList<Node> Q1 = (ArrayList<Node>) Node.levelOrderTraversal(tree1);
-				ArrayList<Node> Q2 = (ArrayList<Node>) Node.levelOrderTraversal(tree2);
-				  
-				Collections.sort(Q1);
-				Collections.sort(Q2);
-					   
-				Queue<Node> result = new LinkedList<Node>();  
-					  
-				for(int i = 0; 0 < Q1.size(); i++)
-				  result.add(Node.minus(Q1.get(i),Q2.get(i)));
-					  
-				//return result;
-				
-			}
-
         });
         
         CounterVisitor counterVisitor = new CounterVisitor();
@@ -110,8 +78,8 @@ public class TreeTest {
         	assertTrue(a == b);
         }
         
-        root.levelOrderTraversal(root);
-        root2.levelOrderTraversal(root);
+        //root.levelOrderTraversal(root);
+        //root2.levelOrderTraversal(root);
         
         assertTrue("some test", true);
         
