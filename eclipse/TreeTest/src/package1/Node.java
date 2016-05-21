@@ -224,15 +224,15 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		int index = fInformation.indexOf(a);
 		fInformation.remove(index);
 	}
-	//This function merge two nodes with the same label: A[1] + A[2] = A[2]
-	void merge(Node root){
+
+	// This function merge two nodes with the same label: A[1] + A[2] = A[2]
+	void merge(Node root) {
 		ArrayList<Integer> metricsNode1;
 		ArrayList<Integer> metricsNode2;
 		ArrayList<Integer> result = new ArrayList<>();
-		if(root.fNameNode.equals(fNameNode))
-		{
+		if (root.fNameNode.equals(fNameNode)) {
 			metricsNode1 = root.fInformation;
-			metricsNode2 = fInformation;		
+			metricsNode2 = fInformation;
 			for (int i = 0; i < metricsNode1.size(); i++) {
 				int a = metricsNode1.get(i);
 				int b = metricsNode2.get(i);
@@ -243,6 +243,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 			fInformation = result;
 		}
 	}
+
 	// Operation minus:
 	public static Node minus(Node node1, Node node2) {
 
@@ -362,26 +363,57 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return result;
 	}
 
-	//This method does creates a levelOrderTraversal and then does the sort:
+	// This method does creates a levelOrderTraversal and then does the sort:
 	public static Queue<Node> Sort(Node tree1) {
 		Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
 		System.out.print("Entrance:" + Q1.size());
 		Queue<Node> q1 = new LinkedList<Node>();
 		ArrayList<Node> AL2 = new ArrayList<>();
-
-
-		AL2 = convertQueue(Q1);
-		System.out.print("AL size:" + AL2.size());
+		ArrayList<Node> AL3 = new ArrayList<>();
 		
-		Collections.sort(AL2);
+		AL2 = convertQueue(Q1);
 
-		q1 = convertArrayList(AL2);
+		AL3 = mergeArrayList(AL2);
+		System.out.print("AL size:" + AL3.size());
+
+		Collections.sort(AL3);
+
+		q1 = convertArrayList(AL3);
 		System.out.print("Q1 size:" + q1.size());
 		return q1;
 
 	}
 
-	//This method converts Queues into ArrayList
+	// This function merges nodes with the same label:
+	public static ArrayList<Node> mergeArrayList(ArrayList<Node> AL) {
+		ArrayList<Node> temp = new ArrayList<Node>();
+		for(int i = 0; i< AL.size(); i++)
+		{
+			Node obj = AL.get(i);
+			for(int j = 1; j< AL.size(); j++)
+			{
+				if(obj.compareTo(AL.get(j)) == 0)
+				{	
+					obj.merge(AL.get(j));
+					AL.remove(j);
+				}
+			}
+			temp.add(obj);
+		}
+		System.out.print(" X ");
+		return temp;
+	}
+
+	// Find multiple occurances
+	public static ArrayList<Integer> indexOfAll(Node obj, ArrayList<Node> list) {
+		ArrayList<Integer> indexList = new ArrayList<Integer>();
+		for (int i = 0; i < list.size(); i++)
+			if (obj.compareTo(list.get(i)) == 0)
+				indexList.add(i);
+		return indexList;
+	}
+
+	// This method converts Queues into ArrayList
 	public static ArrayList<Node> convertQueue(Queue tree) {
 		ArrayList<Node> Q2 = new ArrayList<>();
 
@@ -396,7 +428,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return Q2;
 	}
 
-	// This method converts ArrayList into Queues 
+	// This method converts ArrayList into Queues
 	public static Queue<Node> convertArrayList(ArrayList<Node> tree) {
 
 		Queue<Node> queue = new LinkedList<Node>();

@@ -83,19 +83,19 @@ public class TreeTest {
 	public void testCreateTree() {
 		System.out.println("Test");
 
-		Node left = new Node(1, String.valueOf('B'));
+		Node left = new Node(1, String.valueOf('A'));
 		Node right = new Node(2, String.valueOf('C'));
 		Node rightright = new Node(6, String.valueOf('G'));
 		Node leftleft = new Node(3, String.valueOf('D'));
 		Node rightleft = new Node(5, String.valueOf('F'));
-		Node leftright = new Node(4, String.valueOf('A'));
+		Node leftright = new Node(4, String.valueOf('E'));
 
 		left.addNodeL(leftleft);
 		left.addNodeR(leftright);
 		right.addNodeR(rightright);
 		right.addNodeL(rightleft);
 
-		Node root = new Node(0, left, right, String.valueOf('E'));
+		Node root = new Node(0, left, right, String.valueOf('A'));
 		
 		Node root2 = new Node(left, right); //By default label = A
 
