@@ -59,7 +59,26 @@ public class TreeTest {
 		}
 
 	}
-
+	public Node merge(Node root, Node a, Node b){
+		root.addNodeL(a);
+		root.addNodeR(b);
+		return root;
+	}
+	public Node createTree(String[] labels, int[] numbers)
+	{
+		Node[] a = new Node[labels.length];
+		Node newNode = new Node();
+		
+		int i;
+		for(i = 0; i< labels.length; i++)
+		{
+			a[i].fInformation.add(numbers[i]);
+			a[i].fNameNode = labels[i];
+		}
+		
+		Node temp = merge(a[i], a[i+1],a[i+2]);
+		return temp;
+	}
 	@Test
 	public void testCreateTree() {
 		System.out.println("Test");
@@ -94,7 +113,7 @@ public class TreeTest {
 		Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
 		Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
 		
-		Queue<Node> temp3 = Node.Sort(root);
+		//Queue<Node> temp3 = Node.Sort(root);
 		
 		// Showing expected x actual:
 		System.out.println("Expected in" + Arrays.toString(expected_in));
@@ -173,9 +192,10 @@ public class TreeTest {
 			result.add(temp);
 		}
 		//System.out.print("while 2");
-		Print(result);
+		Queue<Node> newResult = Node.eliminateNull(result);
+		Print(newResult);
 		//System.out.print("print");
-		return result;
+		return newResult;
 	}
 
 }

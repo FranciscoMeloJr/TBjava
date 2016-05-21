@@ -252,6 +252,21 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return temp;
 	}
 
+	// Eliminates the null:
+	public static Queue<Node> eliminateNull(Queue<Node> queue) {
+		Queue<Node> aux = new LinkedList<Node>();
+		Queue<Node> result = new LinkedList<Node>();
+		Node temp;
+		aux = queue;
+		while (!aux.isEmpty()) {
+			temp = aux.poll();
+			if (temp.fNameNode != null)
+				result.add(temp);
+		}
+		return result;
+
+	}
+
 	// Level order traversal:
 	public static Queue<Node> levelOrderTraversal(Node startNode) {
 		System.out.println("levelOrderTraversal");
@@ -313,13 +328,13 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
 		Queue<Node> q1 = new LinkedList<Node>();
 		ArrayList<Node> Q2 = new ArrayList<>();
-		
+
 		Queue<Node> result = new LinkedList<Node>();
 
 		Q2 = convertQueue(Q1);
 
 		Collections.sort(Q2);
-		
+
 		q1 = convertArrayList(Q2);
 		return q1;
 
@@ -346,7 +361,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		Q2 = tree;
 		Queue<Node> queue = new LinkedList<Node>();
 
-		for(int i = 0; i <Q2.size(); i++){
+		for (int i = 0; i < Q2.size(); i++) {
 			queue.add(Q2.get(i));
 			i++;
 		}
