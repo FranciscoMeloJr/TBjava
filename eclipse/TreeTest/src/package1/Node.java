@@ -36,19 +36,23 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	}
 
 	public Node(Node left, Node right) {
-		this(0, left, right, String.valueOf('D'));
+		this(0, left, right, String.valueOf('A'));
 	}
-
+	public Node(int a, Node left, Node right) {
+		this(a, left, right, String.valueOf('A'));
+	}
 	public Node(int a) {
 		this(a, null, null, null);
 	}
-	
+
 	public Node(int a, String b) {
 		this(a, null, null, b);
 	}
+
 	void setLabel(String label) {
 		fNameNode = label;
 	}
+
 	void add(int a) {
 		fInformation.add(a);
 	}
@@ -222,19 +226,27 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	// Operation minus:
 	public static Node minus(Node node1, Node node2) {
 
+		//System.out.print("Minus");
 		Node temp = new Node();
 		ArrayList<Integer> metricsNode1;
 		ArrayList<Integer> metricsNode2;
 		ArrayList<Integer> result = new ArrayList<>();
 
-		metricsNode1 = node1.fInformation;
+		metricsNode1 =  node1.fInformation;
 		metricsNode2 = node2.fInformation;
-		if (node1.fNameNode == node2.fNameNode) {
+		if (node1.fNameNode.equals(node2.fNameNode)) {
+			temp.setLabel(node1.fNameNode);
 			for (int i = 0; i < metricsNode1.size(); i++)
-				result.add(metricsNode1.get(i) - metricsNode2.get(i));
+			{
+				int a = metricsNode1.get(i);
+				int b = metricsNode2.get(i);
+				int total = a - b;
+				result.add( total );
+				System.out.println( a + " " + b  + " " + total );
+			}
 			temp.fInformation = result;
 		}
-
+		//System.out.print("returning " + temp.fNameNode + " " + temp.fInformation );
 		return temp;
 	}
 
@@ -263,27 +275,27 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		System.out.println("levelOrderTraversal");
 		Queue<Node> queue = new LinkedList<Node>();
 		Queue<Node> result = new LinkedList<Node>();
-		//Put the first node on the list
-		
+		// Put the first node on the list
+
 		Node tempNode;
 		queue.add(startNode);
-		
+
 		while (!queue.isEmpty()) {
-			
+
 			tempNode = queue.poll();
 			visitor.visitNode(tempNode); // send the result to visitorNode
 			result.add(tempNode); // put in the result
-		
+
 			System.out.print(tempNode.fInformation);
-			
+
 			if (tempNode.fLeft != null)
 				queue.add(tempNode.fLeft);
-			
+
 			if (tempNode.fRight != null)
 				queue.add(tempNode.fRight);
-			
+
 		}
-		
+
 		return result;
 	}
 

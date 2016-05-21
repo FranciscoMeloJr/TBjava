@@ -76,9 +76,9 @@ public class TreeTest {
 		right.addNodeR(rightright);
 		right.addNodeL(rightleft);
 
-		Node root = new Node(0, left, right, String.valueOf('A'));
+		Node root = new Node(45, left, right, String.valueOf('A'));
 		
-		Node root2 = new Node(left, right); //By default label = A
+		Node root2 = new Node(13, left, right); //By default label = A
 
 		root.PosOrder(root);
 
@@ -89,7 +89,7 @@ public class TreeTest {
 		Node.printIn(root, orderVisitor);
 
 		Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
-		Queue<Node> temp2 = Node.levelOrderTraversal(root, orderVisitor);
+		Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
 
 		CounterVisitor counterVisitor = new CounterVisitor();
 		Node.printIn(root, counterVisitor);
@@ -100,9 +100,9 @@ public class TreeTest {
 		System.out.println("level ordr" + orderVisitor.actual_level);
 		//Queue:
 		System.out.println("x");
-		Print(temp1);
-		Print(temp2);
-		doMinus(temp1,temp2);
+		//Print(temp1);
+		//Print(temp2);
+		doMinus(temp1, temp2);
 		
 		// Asserts expect from counter visitor- actual_in
 		assertEquals(expected_in.length, counterVisitor.fCount);
@@ -110,7 +110,9 @@ public class TreeTest {
 		assertEquals(expected_in.length, orderVisitor.actual_in.size());
 		assertNotNull(orderVisitor.actual_in);
 		assertTrue(orderVisitor.actual_in != null);
-
+		//Assert True if temp1 and temp2 difference is different than null:
+		assertTrue(doMinus(temp1,temp2)!= null);
+		
 		// Compare each one with the assertion
 		for (int i = 0; i < expected_in.length; i++) {
 			int a = expected_in[i];
@@ -144,26 +146,36 @@ public class TreeTest {
 	{
 		System.out.print("Queue: ");
 		Node temp;
-		while(!N.isEmpty())
+		Queue<Node> queue = N;
+
+		while(!queue.isEmpty())
 		{	
-			temp = N.poll();
-			System.out.print(temp.fNameNode);
+			temp = queue.poll();
+			System.out.print(temp.fNameNode +" " + temp.fInformation);
 		}
 		
 	}
 	//Do the minus operation and return a new Queue
 	public static Queue<Node> doMinus(Queue<Node> N1, Queue<Node> N2)
 	{
-		System.out.print("Minus Operation");
-		Node temp;
-		Queue<Node> result = null;
-		while(!N1.isEmpty())
+		System.out.print("Minus Operation ");
+		Node temp, temp2, temp1;
+		Queue<Node> result = new LinkedList<Node>();
+		//Print(N1);
+		//Print(N2);
+		System.out.println("size" + N1.size() + " " + N2.size());
+		while(N1.size() > 0) 
 		{	
-			temp = Node.minus(N1.poll(),N2.poll());
-			System.out.print(temp.fNameNode);
+			//System.out.print("while");
+			temp1 = N1.poll();
+			temp2 = N2.poll();
+			//System.out.print(temp1.fInformation +" " +  temp2.fInformation);
+			temp = Node.minus(temp1,temp2);
 			result.add(temp);
 		}
+		//System.out.print("while 2");
 		Print(result);
+		//System.out.print("print");
 		return result;
 	}
 
