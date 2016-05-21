@@ -11,7 +11,7 @@ import java.util.Stack;
  *
  * @author francisco
  */
-public class Node {//implements Comparator<Node>, Comparable<Node> {
+public class Node implements Comparator<Node>, Comparable<Node> {
 	ArrayList<Integer> fInformation;
 	String fNameNode;
 	Node fLeft;
@@ -65,7 +65,7 @@ public class Node {//implements Comparator<Node>, Comparable<Node> {
 	public ArrayList<Integer> Inorder(Node tree) {
 
 		System.out.println("x");
-		Stack<Node> fstack = new Stack();
+		Stack<Node> fstack = new Stack<Node>();
 		ArrayList<Integer> out = new ArrayList<>();
 
 		fstack.push(tree);
@@ -144,7 +144,7 @@ public class Node {//implements Comparator<Node>, Comparable<Node> {
 	public ArrayList<Integer> PreOrder(Node tree) {
 
 		System.out.println("x");
-		Stack<Node> fstack = new Stack();
+		Stack<Node> fstack = new Stack<Node>();
 		ArrayList<Integer> out = new ArrayList<>();
 
 		Node froot = tree;
@@ -274,7 +274,6 @@ public class Node {//implements Comparator<Node>, Comparable<Node> {
 				queue.add(tempNode.fRight);
 
 		}
-		TreeTest.Print(result);
 		return result;
 	}
 
@@ -311,18 +310,18 @@ public class Node {//implements Comparator<Node>, Comparable<Node> {
 	public static Queue<Node> Sort(Node tree1) {
 		System.out.println("Sort 1");
 		
-		Queue<Node> temp = new LinkedList<Node>();
 		System.out.println(" Sort 2");
-		temp = levelOrderTraversal(tree1);
 		
-		System.out.println(" Sort 3");	
-		Node temp1 = temp.poll();
-		Node temp2 = temp.poll();
-		System.out.println(" Sort 3.5");
-		Node.compare(temp1, temp2);
+		Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
+		System.out.println(" Sort 3");
+		
+		Queue<Node> result = new LinkedList<Node>();  
+		System.out.println(" Sort 3");
 		
 		System.out.println(" Sort 4");
-		return temp;
+		return Q1;
+		//System.out.println("Compare "+ temp1.fNameNode.compareTo(temp2.fNameNode));
+		
 	}
 
 	// Pos order:
@@ -422,13 +421,13 @@ public class Node {//implements Comparator<Node>, Comparable<Node> {
 	 * 
 	 * }
 	 */
-
+	@Override
 	public int compareTo(Node d) {
 		System.out.println(" compareto ");
-		return (this.fNameNode).compareTo(d.fNameNode);
+		return (this.fNameNode).compareToIgnoreCase(d.fNameNode);
 	}
-
-	public static int compare(Node node1, Node node2) {
+	@Override
+	public int compare(Node node1, Node node2) {
 		System.out.println(" compare 1");
 		int compare = node1.compareTo(node2);
 		System.out.println(" compare 1.5");
