@@ -224,7 +224,25 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		int index = fInformation.indexOf(a);
 		fInformation.remove(index);
 	}
-
+	//This function merge two nodes with the same label: A[1] + A[2] = A[2]
+	void merge(Node root){
+		ArrayList<Integer> metricsNode1;
+		ArrayList<Integer> metricsNode2;
+		ArrayList<Integer> result = new ArrayList<>();
+		if(root.fNameNode.equals(fNameNode))
+		{
+			metricsNode1 = root.fInformation;
+			metricsNode2 = fInformation;		
+			for (int i = 0; i < metricsNode1.size(); i++) {
+				int a = metricsNode1.get(i);
+				int b = metricsNode2.get(i);
+				int total = a - b;
+				result.add(total);
+				System.out.println(a + " " + b + " " + total);
+			}
+			fInformation = result;
+		}
+	}
 	// Operation minus:
 	public static Node minus(Node node1, Node node2) {
 
@@ -247,8 +265,29 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 			}
 			temp.fInformation = result;
 		}
-		// System.out.print("returning " + temp.fNameNode + " " +
-		// temp.fInformation );
+		return temp;
+	}
+
+	// Operation sum:
+	public static Node sum(Node node1, Node node2) {
+
+		Node temp = new Node();
+		ArrayList<Integer> metricsNode1;
+		ArrayList<Integer> metricsNode2;
+		ArrayList<Integer> result = new ArrayList<>();
+
+		metricsNode1 = node1.fInformation;
+		metricsNode2 = node2.fInformation;
+		if (node1.fNameNode.equals(node2.fNameNode)) {
+			temp.setLabel(node1.fNameNode);
+			for (int i = 0; i < metricsNode1.size(); i++) {
+				int a = metricsNode1.get(i);
+				int b = metricsNode2.get(i);
+				int total = a + b;
+				result.add(total);
+			}
+			temp.fInformation = result;
+		}
 		return temp;
 	}
 
@@ -323,24 +362,26 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return result;
 	}
 
-	// Sort
+	//This method does creates a levelOrderTraversal and then does the sort:
 	public static Queue<Node> Sort(Node tree1) {
 		Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
+		System.out.print("Entrance:" + Q1.size());
 		Queue<Node> q1 = new LinkedList<Node>();
-		ArrayList<Node> Q2 = new ArrayList<>();
+		ArrayList<Node> AL2 = new ArrayList<>();
 
-		Queue<Node> result = new LinkedList<Node>();
 
-		Q2 = convertQueue(Q1);
+		AL2 = convertQueue(Q1);
+		System.out.print("AL size:" + AL2.size());
+		
+		Collections.sort(AL2);
 
-		Collections.sort(Q2);
-
-		q1 = convertArrayList(Q2);
+		q1 = convertArrayList(AL2);
+		System.out.print("Q1 size:" + q1.size());
 		return q1;
 
 	}
 
-	// Convert Queue
+	//This method converts Queues into ArrayList
 	public static ArrayList<Node> convertQueue(Queue tree) {
 		ArrayList<Node> Q2 = new ArrayList<>();
 
@@ -355,17 +396,14 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return Q2;
 	}
 
-	// Convert ArrayList
+	// This method converts ArrayList into Queues 
 	public static Queue<Node> convertArrayList(ArrayList<Node> tree) {
-		ArrayList<Node> Q2 = new ArrayList<>();
-		Q2 = tree;
+
 		Queue<Node> queue = new LinkedList<Node>();
-
-		for (int i = 0; i < Q2.size(); i++) {
-			queue.add(Q2.get(i));
-			i++;
+		System.out.println("tree size: " + tree.size());
+		for (int i = 0; i < tree.size(); i++) {
+			queue.add(tree.get(i));
 		}
-
 		return queue;
 	}
 
@@ -468,23 +506,12 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	 */
 	@Override
 	public int compareTo(Node d) {
-		System.out.println(" compareto ");
 		return (this.fNameNode).compareToIgnoreCase(d.fNameNode);
 	}
 
 	@Override
 	public int compare(Node node1, Node node2) {
-		System.out.println(" compare 1");
 		int compare = node1.compareTo(node2);
-		System.out.println(" compare 1.5");
-		if (compare < 0) {
-			System.out.println(node1 + " is before " + node2);
-		} else if (compare > 0) {
-			System.out.println(node2 + " is before " + node1);
-		} else {
-			System.out.println(node2 + " is same as " + node1);
-		}
-		System.out.println("compare 2");
 		return compare;
 	}
 }

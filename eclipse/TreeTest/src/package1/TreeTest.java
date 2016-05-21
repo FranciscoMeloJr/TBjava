@@ -88,7 +88,7 @@ public class TreeTest {
 		Node rightright = new Node(6, String.valueOf('G'));
 		Node leftleft = new Node(3, String.valueOf('D'));
 		Node rightleft = new Node(5, String.valueOf('F'));
-		Node leftright = new Node(4, String.valueOf('E'));
+		Node leftright = new Node(4, String.valueOf('A'));
 
 		left.addNodeL(leftleft);
 		left.addNodeR(leftright);
@@ -110,9 +110,10 @@ public class TreeTest {
 		CounterVisitor counterVisitor = new CounterVisitor();
 		Node.printIn(root, counterVisitor);
 		
-		Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
-		Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
-		
+		//Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
+		Queue<Node> temp1 = Node.Sort(root);
+		//Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
+		Queue<Node> temp2 = Node.Sort(root2);
 		//Queue<Node> temp3 = Node.Sort(root);
 		
 		// Showing expected x actual:
