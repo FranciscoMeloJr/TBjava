@@ -24,24 +24,31 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	}
 
 	public Node() {
-		this(0, null, null);
+		this(0, null, null, null);
 	}
 
-	public Node(int cargo, Node left, Node right) {
+	public Node(int cargo, Node left, Node right, String label) {
 		fInformation = new ArrayList<>();
 		fInformation.add(cargo);
 		fLeft = left;
 		fRight = right;
+		fNameNode = label;
 	}
 
 	public Node(Node left, Node right) {
-		this(0, left, right);
+		this(0, left, right, String.valueOf('D'));
 	}
 
 	public Node(int a) {
-		this(a, null, null);
+		this(a, null, null, null);
 	}
-
+	
+	public Node(int a, String b) {
+		this(a, null, null, b);
+	}
+	void setLabel(String label) {
+		fNameNode = label;
+	}
 	void add(int a) {
 		fInformation.add(a);
 	}
@@ -155,6 +162,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	}
 
 	public ArrayList<Integer> PosOrder(Node root) {
+		System.out.println("Pos");
 		Stack<Node> S = new Stack<>();
 		ArrayList<Integer> out = new ArrayList<>();
 		Node fprev = root;
@@ -198,7 +206,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 
 			prev = fcurrent;
 		}
-		System.out.print(out.toString());
+		System.out.println(out.toString());
 		return out;
 	}
 
@@ -232,7 +240,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 
 	// Level order traversal:
 	public static Queue<Node> levelOrderTraversal(Node startNode) {
-		System.out.print("levelOrderTraversal");
+		System.out.println("levelOrderTraversal");
 		Queue<Node> queue = new LinkedList<Node>();
 		Queue<Node> result = new LinkedList<Node>();
 		result = queue;
@@ -252,32 +260,28 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 
 	// Level order traversal with visitor:
 	public static Queue<Node> levelOrderTraversal(Node startNode, ITreeVisitor visitor) {
-		System.out.print("levelOrderTraversal");
+		System.out.println("levelOrderTraversal");
 		Queue<Node> queue = new LinkedList<Node>();
 		Queue<Node> result = new LinkedList<Node>();
 		//Put the first node on the list
-		queue.add(startNode);
-		result = queue;
-		visitor.visitNode(startNode); //put it on the queue
 		
-		Node tempNode = queue.poll();
+		Node tempNode;
+		queue.add(startNode);
 		
 		while (!queue.isEmpty()) {
-			result.add(queue.peek()); // put in the result
-			tempNode = queue.poll();	
-			result.add(tempNode);
 			
+			tempNode = queue.poll();
+			visitor.visitNode(tempNode); // send the result to visitorNode
+			result.add(tempNode); // put in the result
+		
 			System.out.print(tempNode.fInformation);
+			
 			if (tempNode.fLeft != null)
-			{
 				queue.add(tempNode.fLeft);
-				visitor.visitNode(tempNode);
-			}
+			
 			if (tempNode.fRight != null)
-			{
 				queue.add(tempNode.fRight);
-				visitor.visitNode(tempNode);
-			}
+			
 		}
 		
 		return result;
