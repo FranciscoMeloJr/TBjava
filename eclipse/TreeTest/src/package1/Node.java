@@ -11,7 +11,7 @@ import java.util.Stack;
  *
  * @author francisco
  */
-public class Node implements Comparator<Node>, Comparable<Node> {
+public class Node {//implements Comparator<Node>, Comparable<Node> {
 	ArrayList<Integer> fInformation;
 	String fNameNode;
 	Node fLeft;
@@ -255,18 +255,26 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		System.out.println("levelOrderTraversal");
 		Queue<Node> queue = new LinkedList<Node>();
 		Queue<Node> result = new LinkedList<Node>();
-		result = queue;
+		// Put the first node on the list
+
+		Node tempNode;
 		queue.add(startNode);
 
 		while (!queue.isEmpty()) {
-			Node tempNode = queue.poll();
-			result.add(tempNode);
+
+			tempNode = queue.poll();
+			result.add(tempNode); // put in the result
+
 			System.out.print(tempNode.fInformation);
+
 			if (tempNode.fLeft != null)
 				queue.add(tempNode.fLeft);
+
 			if (tempNode.fRight != null)
 				queue.add(tempNode.fRight);
+
 		}
+		TreeTest.Print(result);
 		return result;
 	}
 
@@ -300,10 +308,20 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	}
 
 	// Sort
-	public static Queue<Node> Sort(Node startNode) {
+	public static Queue<Node> Sort(Node tree1) {
+		System.out.println("Sort 1");
+		
 		Queue<Node> temp = new LinkedList<Node>();
-		// java.util.Collections.sort(listOfCountryNames);
-
+		System.out.println(" Sort 2");
+		temp = levelOrderTraversal(tree1);
+		
+		System.out.println(" Sort 3");	
+		Node temp1 = temp.poll();
+		Node temp2 = temp.poll();
+		System.out.println(" Sort 3.5");
+		Node.compare(temp1, temp2);
+		
+		System.out.println(" Sort 4");
 		return temp;
 	}
 
@@ -405,15 +423,15 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	 * }
 	 */
 
-	@Override
 	public int compareTo(Node d) {
+		System.out.println(" compareto ");
 		return (this.fNameNode).compareTo(d.fNameNode);
 	}
 
-	@Override
-	public int compare(Node node1, Node node2) {
-
+	public static int compare(Node node1, Node node2) {
+		System.out.println(" compare 1");
 		int compare = node1.compareTo(node2);
+		System.out.println(" compare 1.5");
 		if (compare < 0) {
 			System.out.println(node1 + " is before " + node2);
 		} else if (compare > 0) {
@@ -421,7 +439,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		} else {
 			System.out.println(node2 + " is same as " + node1);
 		}
-
+		System.out.println("compare 2");
 		return compare;
 	}
 }

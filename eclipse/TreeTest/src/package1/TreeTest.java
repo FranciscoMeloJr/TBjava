@@ -76,9 +76,9 @@ public class TreeTest {
 		right.addNodeR(rightright);
 		right.addNodeL(rightleft);
 
-		Node root = new Node(45, left, right, String.valueOf('A'));
+		Node root = new Node(0, left, right, String.valueOf('E'));
 		
-		Node root2 = new Node(13, left, right); //By default label = A
+		Node root2 = new Node(left, right); //By default label = A
 
 		root.PosOrder(root);
 
@@ -88,21 +88,21 @@ public class TreeTest {
 		OrderVisitor orderVisitor = new OrderVisitor();
 		Node.printIn(root, orderVisitor);
 
-		Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
-		Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
-
 		CounterVisitor counterVisitor = new CounterVisitor();
 		Node.printIn(root, counterVisitor);
-
+		
+		Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
+		Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
+		
+		Queue<Node> temp3 = Node.Sort(root);
+		
 		// Showing expected x actual:
 		System.out.println("Expected in" + Arrays.toString(expected_in));
 		System.out.println("In ordr result" + orderVisitor.actual_in);
 		System.out.println("level ordr" + orderVisitor.actual_level);
 		//Queue:
-		System.out.println("x");
 		//Print(temp1);
 		//Print(temp2);
-		doMinus(temp1, temp2);
 		
 		// Asserts expect from counter visitor- actual_in
 		assertEquals(expected_in.length, counterVisitor.fCount);
@@ -112,7 +112,6 @@ public class TreeTest {
 		assertTrue(orderVisitor.actual_in != null);
 		//Assert True if temp1 and temp2 difference is different than null:
 		assertTrue(doMinus(temp1,temp2)!= null);
-		
 		// Compare each one with the assertion
 		for (int i = 0; i < expected_in.length; i++) {
 			int a = expected_in[i];
