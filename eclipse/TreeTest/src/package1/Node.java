@@ -19,6 +19,8 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 
 	public interface ITreeVisitor {
 		public void visit(Node node);
+
+		public void visitNode(Node node);
 	}
 
 	public Node() {
@@ -85,51 +87,49 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		}
 		return out;
 	}
-	
-	//Compare node:
-	boolean compareNode(Node N1 ,Node N2)
-	{
-		  return N1.fInformation == N1.fInformation;
+
+	// Compare node:
+	boolean compareNode(Node N1, Node N2) {
+		return N1.fInformation == N1.fInformation;
 	}
-	
-	//This function here compare 2 binary tree*/
-	boolean equals(Node T1, Node T2)
-	{
-		//def equals(T1, T2):
-		if(compare(T1, T2) == 0)
+
+	// This function here compare 2 binary tree*/
+	boolean equals(Node T1, Node T2) {
+		// def equals(T1, T2):
+		if (compare(T1, T2) == 0)
 			return false;
-		// if is successful for flat comparison 
+		// if is successful for flat comparison
 		// if it is leaf it is equal
 		if (T1.fInformation == null && T2.fInformation == null)
 			return true;
-		//Deep comparison:
+		// Deep comparison:
 
 		if (!equals(T1.fLeft, T1.fLeft))
 			return false;
-		
+
 		if (!equals(T1.fRight, T1.fRight))
 			return false;
 		return true;
 
-	} 
-	
-    boolean identicalTrees(Node a, Node b) {
-        
-        /*1. both empty */
-        if (a == null && b == null) {
-            return true;
-        }
- 
-        /* 2. both non-empty -> compare them */
-        if (a != null && b != null) {
-            return (a.fNameNode == b.fNameNode
-                    && identicalTrees(a.fLeft, b.fLeft)
-                    && identicalTrees(a.fRight, b.fRight));
-        }
- 
-        /* 3. one empty, one not -> false */
-        return false;
-    }
+	}
+
+	boolean identicalTrees(Node a, Node b) {
+
+		/* 1. both empty */
+		if (a == null && b == null) {
+			return true;
+		}
+
+		/* 2. both non-empty -> compare them */
+		if (a != null && b != null) {
+			return (a.fNameNode == b.fNameNode && identicalTrees(a.fLeft, b.fLeft)
+					&& identicalTrees(a.fRight, b.fRight));
+		}
+
+		/* 3. one empty, one not -> false */
+		return false;
+	}
+
 	public ArrayList<Integer> PreOrder(Node tree) {
 
 		System.out.println("x");
@@ -210,54 +210,87 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		int index = fInformation.indexOf(a);
 		fInformation.remove(index);
 	}
-	
-	//Operation minus:
+
+	// Operation minus:
 	public static Node minus(Node node1, Node node2) {
-			
-			Node temp = new Node();
-			ArrayList<Integer> metricsNode1;
-			ArrayList<Integer> metricsNode2;
-			ArrayList<Integer> result = new ArrayList<>();
-			
-			metricsNode1 = node1.fInformation;
-			metricsNode2 = node2.fInformation;
-			if(node1.fNameNode == node2.fNameNode)
-			{
-				for(int i = 0; i < metricsNode1.size(); i++)
-					result.add(metricsNode1.get(i) - metricsNode2.get(i));
-				temp.fInformation = result;
-			}
-			
-			return temp;
-    }
-	//Level order traversal
-	public static Queue<Node> levelOrderTraversal(Node startNode) {
-			System.out.print("levelOrderTraversal");
-			  Queue<Node> queue= new LinkedList<Node>();
-			  Queue<Node> result = new LinkedList<Node>();
-			  result = queue;
-			  queue.add(startNode);
-			  
-			  while(!queue.isEmpty())  
-			  {  
-			   Node tempNode = queue.poll();
-			   result.add(tempNode);
-			   System.out.print(tempNode.fInformation);  
-			   if(tempNode.fLeft!=null)  
-				  queue.add(tempNode.fLeft);  
-			   if(tempNode.fRight!=null)  
-				  queue.add(tempNode.fRight);  
-			  }  
-			  return result;
-	}
-	//Sort
-	//Level order traversal
-	public static Queue<Node> Sort(Node startNode) {
-		Queue<Node> temp= new LinkedList<Node>();
-		 //java.util.Collections.sort(listOfCountryNames);
-		
+
+		Node temp = new Node();
+		ArrayList<Integer> metricsNode1;
+		ArrayList<Integer> metricsNode2;
+		ArrayList<Integer> result = new ArrayList<>();
+
+		metricsNode1 = node1.fInformation;
+		metricsNode2 = node2.fInformation;
+		if (node1.fNameNode == node2.fNameNode) {
+			for (int i = 0; i < metricsNode1.size(); i++)
+				result.add(metricsNode1.get(i) - metricsNode2.get(i));
+			temp.fInformation = result;
+		}
+
 		return temp;
 	}
+
+	// Level order traversal:
+	public static Queue<Node> levelOrderTraversal(Node startNode) {
+		System.out.print("levelOrderTraversal");
+		Queue<Node> queue = new LinkedList<Node>();
+		Queue<Node> result = new LinkedList<Node>();
+		result = queue;
+		queue.add(startNode);
+
+		while (!queue.isEmpty()) {
+			Node tempNode = queue.poll();
+			result.add(tempNode);
+			System.out.print(tempNode.fInformation);
+			if (tempNode.fLeft != null)
+				queue.add(tempNode.fLeft);
+			if (tempNode.fRight != null)
+				queue.add(tempNode.fRight);
+		}
+		return result;
+	}
+
+	// Level order traversal with visitor:
+	public static Queue<Node> levelOrderTraversal(Node startNode, ITreeVisitor visitor) {
+		System.out.print("levelOrderTraversal");
+		Queue<Node> queue = new LinkedList<Node>();
+		Queue<Node> result = new LinkedList<Node>();
+		//Put the first node on the list
+		queue.add(startNode);
+		result = queue;
+		visitor.visitNode(startNode); //put it on the queue
+		
+		Node tempNode = queue.poll();
+		
+		while (!queue.isEmpty()) {
+			result.add(queue.peek()); // put in the result
+			tempNode = queue.poll();	
+			result.add(tempNode);
+			
+			System.out.print(tempNode.fInformation);
+			if (tempNode.fLeft != null)
+			{
+				queue.add(tempNode.fLeft);
+				visitor.visitNode(tempNode);
+			}
+			if (tempNode.fRight != null)
+			{
+				queue.add(tempNode.fRight);
+				visitor.visitNode(tempNode);
+			}
+		}
+		
+		return result;
+	}
+
+	// Sort
+	public static Queue<Node> Sort(Node startNode) {
+		Queue<Node> temp = new LinkedList<Node>();
+		// java.util.Collections.sort(listOfCountryNames);
+
+		return temp;
+	}
+
 	// Pos order:
 	public static void printPos(Node tree) {
 		if (tree == null)
@@ -339,29 +372,22 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return temp;
 	}
 
-	/* Compare:
-	public static boolean compare(Node A, Node B) {
-		ArrayList<Integer> temp1 = Pos(A);
-		ArrayList<Integer> temp2 = Pos(B);
-
-		// Quick Check to see if the two arrayLists have the same number of
-		// elements
-		if (temp1.size() != temp2.size())
-			return false;
-
-		// Optionally Sort the arrays - avoid returning false if the elements
-		// are the same but
-		// have been stored out of sequence
-		Collections.sort(temp1);
-		Collections.sort(temp2);
-
-		if (temp1.hashCode() == temp2.hashCode()) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}*/
+	/*
+	 * Compare: public static boolean compare(Node A, Node B) {
+	 * ArrayList<Integer> temp1 = Pos(A); ArrayList<Integer> temp2 = Pos(B);
+	 * 
+	 * // Quick Check to see if the two arrayLists have the same number of //
+	 * elements if (temp1.size() != temp2.size()) return false;
+	 * 
+	 * // Optionally Sort the arrays - avoid returning false if the elements //
+	 * are the same but // have been stored out of sequence
+	 * Collections.sort(temp1); Collections.sort(temp2);
+	 * 
+	 * if (temp1.hashCode() == temp2.hashCode()) { return true; } else { return
+	 * false; }
+	 * 
+	 * }
+	 */
 
 	@Override
 	public int compareTo(Node d) {
@@ -372,16 +398,14 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	public int compare(Node node1, Node node2) {
 
 		int compare = node1.compareTo(node2);
-		if (compare < 0){
-		    System.out.println(node1+" is before "+node2);
+		if (compare < 0) {
+			System.out.println(node1 + " is before " + node2);
+		} else if (compare > 0) {
+			System.out.println(node2 + " is before " + node1);
+		} else {
+			System.out.println(node2 + " is same as " + node1);
 		}
-		else if (compare > 0) {
-		    System.out.println(node2+" is before "+node1);
-		}
-		else {
-		    System.out.println(node2+" is same as "+node1);
-		}
-		
+
 		return compare;
 	}
 }
