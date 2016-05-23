@@ -79,21 +79,22 @@ public class TreeTest {
 		Node temp = merge(a[i], a[i+1],a[i+2]);
 		return temp;
 	}
-	public Node createTree1()
+	public Node createTree1(String[] labels, int[] cargos)
 	{
-		Node left = new Node(1, String.valueOf('A'));
-		Node right = new Node(2, String.valueOf('C'));
-		Node rightright = new Node(6, String.valueOf('G'));
-		Node leftleft = new Node(3, String.valueOf('D'));
-		Node rightleft = new Node(5, String.valueOf('F'));
-		Node leftright = new Node(4, String.valueOf('C'));
-
+		//[0],[1],[2],[3],[4],[5],[6],[7],
+		Node left = new Node(cargos[1], labels[1]);
+		Node right = new Node(cargos[2], labels[2]);
+		Node rightright = new Node(cargos[3], labels[3]);
+		Node leftleft = new Node(cargos[4], labels[4]);
+		Node rightleft = new Node(cargos[5], labels[5]);
+		Node leftright = new Node(cargos[6], labels[6]);
+		
 		left.addNodeL(leftleft);
 		left.addNodeR(leftright);
 		right.addNodeR(rightright);
 		right.addNodeL(rightleft);
 
-		Node root = new Node(0, left, right, String.valueOf('A'));
+		Node root = new Node(cargos[0], left, right, labels[0]);
 		
 		return root;
 	}
@@ -115,13 +116,34 @@ public class TreeTest {
 		
 		return root;
 	}
+	public Node createTree3()
+	{
+		Node left = new Node(1, String.valueOf('A'));
+		Node right = new Node(2, String.valueOf('C'));
+		Node rightright = new Node(6, String.valueOf('G'));
+		Node leftleft = new Node(3, String.valueOf('D'));
+		Node rightleft = new Node(5, String.valueOf('F'));
+		Node leftright = new Node(4, String.valueOf('C'));
+
+		left.addNodeL(leftleft);
+		left.addNodeR(leftright);
+		right.addNodeR(rightright);
+		right.addNodeL(rightleft);
+
+		Node root = new Node(0, left, right, String.valueOf('A'));
+		
+		return root;
+	}
 	@Test
 	public void testCreateTree() {
 		System.out.println("Test");
-
-		Node root = createTree1();
+		String[] labels = {"A","A","A","A","D","F","E"};
+		int[] cargos = {0, 1, 2, 3, 4, 5, 6};
+		Node root = createTree1(labels,cargos);
 		
-		Node root2 = createTree2(); //By default label = A
+		String[] labels2 = {"A","A","A","A","D","F","E"};
+		int[] cargos2 = {0, 2, 3, 4, 5, 6, 7};
+		Node root2 = createTree1(labels,cargos2);
 
 		root.PosOrder(root);
 
@@ -189,8 +211,8 @@ public class TreeTest {
 	{
 		System.out.print("Queue: ");
 		Node temp;
-		Queue<Node> queue = N;
-
+		Queue<Node> queue = new LinkedList<Node>();
+		queue = N;
 		while(!queue.isEmpty())
 		{	
 			temp = queue.poll();
@@ -207,7 +229,7 @@ public class TreeTest {
 		//Print(N1);
 		//Print(N2);
 		System.out.println("size" + N1.size() + " " + N2.size());
-		while(N1.size() > 0) 
+		while(N1.size() > 0 && N2.size() > 0) 
 		{	
 			//System.out.print("while");
 			temp1 = N1.poll();

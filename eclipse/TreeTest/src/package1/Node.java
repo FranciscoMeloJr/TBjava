@@ -65,6 +65,12 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		fRight = tree;
 	}
 
+	boolean equals(Node d) {
+		if (fNameNode.equalsIgnoreCase(d.fNameNode))
+			return true;
+		return false;
+	}
+
 	// Inorder:
 	public ArrayList<Integer> Inorder(Node tree) {
 
@@ -225,6 +231,25 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	void delete(int a) {
 		int index = fInformation.indexOf(a);
 		fInformation.remove(index);
+	}
+
+	// This function merge two nodes with the same label: A[1] + A[2] = A[2]
+	void mergePositive(Node node) {
+		ArrayList<Integer> metricsNode1;
+		ArrayList<Integer> metricsNode2;
+		ArrayList<Integer> result = new ArrayList<>();
+		if (node.fNameNode.equals(fNameNode)) {
+			metricsNode1 = node.fInformation;
+			metricsNode2 = fInformation;
+			for (int i = 0; i < metricsNode1.size(); i++) {
+				int a = metricsNode1.get(i);
+				int b = metricsNode2.get(i);
+				int total = a + b;
+				result.add(total);
+				System.out.println(a + " " + b + " " + total);
+			}
+			fInformation = result;
+		}
 	}
 
 	// This function merge two nodes with the same label: A[1] + A[2] = A[2]
@@ -390,25 +415,37 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	public static ArrayList<Node> mergeArrayList(ArrayList<Node> AL) {
 		ArrayList<Node> temp = new ArrayList<Node>();
 		ArrayList<Node> XXX = new ArrayList<Node>();
+		Node newNode;
 		temp = AL;
 		System.out.println(" Merge Array List");
-		for (int i = 0; i < temp.size(); i++) {
+		System.out.print("Before ");
+		TreeTest.Print(Node.convertArrayList(AL));
+
+		for (int i = 1; i < temp.size(); i++) {
 			Node obj = temp.get(i);
-			ArrayList<Integer> x = Node.indexOfAll(obj, temp);
-			if (x.size() > 1) {
-				System.out.println("List " + x);
-				temp = Node.mergeNodeList(x, temp);
-			} else
-				XXX.add(obj);
+			for (int j = 0; j < temp.size(); j++) {
+				if (obj.equals(temp.get(j)) && (i != j)) {
+					System.out.println(i + " Equals " + j);
+					obj.mergePositive(temp.get(j)); // merge
+					temp.remove(j);
+				}
+
+			}
+			XXX.add(obj);
 		}
+		System.out.print("After merging ");
+		TreeTest.Print(Node.convertArrayList(XXX));
 		return XXX;
 	}
 
 	// This function merges multiple occurrences in >one Node<
-	public static Node mergeNodeList(Node x, ArrayList<Integer> listMultiple, ArrayList<Node> list) {
-		Node temp;
-		
-		return temp;
+	public static Node mergeNodeList(Node x, ArrayList<Integer> listMultiple, ArrayList<Node> temp) {
+		int j = 0;
+		Node newNode = temp.get(listMultiple.get(j));
+		for (j = 1; j < listMultiple.size(); j++) {
+			newNode.merge(temp.get(listMultiple.get(j)));
+		}
+		return newNode;
 	}
 
 	// This function merges multiple occurrences
@@ -548,22 +585,6 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return temp;
 	}
 
-	/*
-	 * Compare: public static boolean compare(Node A, Node B) {
-	 * ArrayList<Integer> temp1 = Pos(A); ArrayList<Integer> temp2 = Pos(B);
-	 * 
-	 * // Quick Check to see if the two arrayLists have the same number of //
-	 * elements if (temp1.size() != temp2.size()) return false;
-	 * 
-	 * // Optionally Sort the arrays - avoid returning false if the elements //
-	 * are the same but // have been stored out of sequence
-	 * Collections.sort(temp1); Collections.sort(temp2);
-	 * 
-	 * if (temp1.hashCode() == temp2.hashCode()) { return true; } else { return
-	 * false; }
-	 * 
-	 * }
-	 */
 	@Override
 	public int compareTo(Node d) {
 		return (this.fNameNode).compareToIgnoreCase(d.fNameNode);
