@@ -3,8 +3,10 @@ package package1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -167,10 +169,10 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return out;
 	}
 
-	public ArrayList<Integer> PosOrder(Node root) {
+	public ArrayList<String> PosOrder(Node root) {
 		System.out.println("Pos");
 		Stack<Node> S = new Stack<>();
-		ArrayList<Integer> out = new ArrayList<>();
+		ArrayList<String> out = new ArrayList<>();
 		Node fprev = root;
 
 		S.push(root);
@@ -186,7 +188,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 					S.push(fcurrent.fRight);
 				} else {
 					S.pop();
-					out.addAll(fcurrent.fInformation);
+					out.add(fcurrent.fNameNode);
 				}
 
 				/*
@@ -198,7 +200,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 					S.push(fcurrent.fRight);
 				} else {
 					S.pop();
-					out.addAll(fcurrent.fInformation);
+					out.add(fcurrent.fNameNode);
 				}
 
 				/*
@@ -207,7 +209,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 				 */
 			} else if (fcurrent.fRight == prev) {
 				S.pop();
-				out.addAll(fcurrent.fInformation);
+				out.add(fcurrent.fNameNode);
 			}
 
 			prev = fcurrent;
@@ -226,12 +228,12 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	}
 
 	// This function merge two nodes with the same label: A[1] + A[2] = A[2]
-	void merge(Node root) {
+	void merge(Node node) {
 		ArrayList<Integer> metricsNode1;
 		ArrayList<Integer> metricsNode2;
 		ArrayList<Integer> result = new ArrayList<>();
-		if (root.fNameNode.equals(fNameNode)) {
-			metricsNode1 = root.fInformation;
+		if (node.fNameNode.equals(fNameNode)) {
+			metricsNode1 = node.fInformation;
 			metricsNode2 = fInformation;
 			for (int i = 0; i < metricsNode1.size(); i++) {
 				int a = metricsNode1.get(i);
@@ -322,7 +324,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 			tempNode = queue.poll();
 			result.add(tempNode); // put in the result
 
-			System.out.print(tempNode.fInformation);
+			System.out.print(" " + tempNode.fNameNode + " ");
 
 			if (tempNode.fLeft != null)
 				queue.add(tempNode.fLeft);
@@ -370,13 +372,13 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		Queue<Node> q1 = new LinkedList<Node>();
 		ArrayList<Node> AL2 = new ArrayList<>();
 		ArrayList<Node> AL3 = new ArrayList<>();
-		
+
 		AL2 = convertQueue(Q1);
 
-		AL3 = mergeArrayList(AL2);
 		System.out.print("AL size:" + AL3.size());
 
-		Collections.sort(AL3);
+		Collections.sort(AL2);
+		AL3 = mergeArrayList(AL2);
 
 		q1 = convertArrayList(AL3);
 		System.out.print("Q1 size:" + q1.size());
@@ -387,24 +389,50 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	// This function merges nodes with the same label:
 	public static ArrayList<Node> mergeArrayList(ArrayList<Node> AL) {
 		ArrayList<Node> temp = new ArrayList<Node>();
-		for(int i = 0; i< AL.size(); i++)
-		{
-			Node obj = AL.get(i);
-			for(int j = 1; j< AL.size(); j++)
-			{
-				if(obj.compareTo(AL.get(j)) == 0)
-				{	
-					obj.merge(AL.get(j));
-					AL.remove(j);
-				}
-			}
-			temp.add(obj);
+		ArrayList<Node> XXX = new ArrayList<Node>();
+		temp = AL;
+		System.out.println(" Merge Array List");
+		for (int i = 0; i < temp.size(); i++) {
+			Node obj = temp.get(i);
+			ArrayList<Integer> x = Node.indexOfAll(obj, temp);
+			if (x.size() > 1) {
+				System.out.println("List " + x);
+				temp = Node.mergeNodeList(x, temp);
+			} else
+				XXX.add(obj);
 		}
-		System.out.print(" X ");
+		return XXX;
+	}
+
+	// This function merges multiple occurrences in >one Node<
+	public static Node mergeNodeList(Node x, ArrayList<Integer> listMultiple, ArrayList<Node> list) {
+		Node temp;
+		
 		return temp;
 	}
 
-	// Find multiple occurances
+	// This function merges multiple occurrences
+	public static ArrayList<Node> mergeList(ArrayList<Integer> listMultiple, ArrayList<Node> list) {
+		// [0,1,2][n1,n2,n3]
+		ArrayList<Node> aux = new ArrayList<Node>(); // It is the auxiliary node
+		Node merged = list.get(listMultiple.get(0)); // It is the new node
+
+		aux = list; // will return the list without repetition
+		for (int j = 1; j < aux.size(); j++) // it starts from the second //
+												// occurrence and goes merging
+		{
+			merged.merge(aux.get(j));
+		}
+		aux.set(listMultiple.get(0), merged); // update the value on the first
+												// position of occurrences
+		for (int j = 1; j < aux.size(); j++) // Remove all the occurrences
+		{
+			list.remove(aux.get(j));
+		}
+		return aux;
+	}
+
+	// Find multiple occurrences
 	public static ArrayList<Integer> indexOfAll(Node obj, ArrayList<Node> list) {
 		ArrayList<Integer> indexList = new ArrayList<Integer>();
 		for (int i = 0; i < list.size(); i++)
