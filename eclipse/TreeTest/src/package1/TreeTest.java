@@ -163,9 +163,10 @@ public class TreeTest {
 		//Queue<Node> temp3 = Node.Sort(root);
 		
 		// Showing expected x actual:
-		System.out.println("Expected in" + Arrays.toString(expected_in));
-		System.out.println("In ordr result" + orderVisitor.actual_in);
-		System.out.println("level ordr" + orderVisitor.actual_level);
+		//System.out.println("Expected in" + Arrays.toString(expected_in));
+		//System.out.println("In ordr result" + orderVisitor.actual_in);
+		//System.out.println("level ordr" + orderVisitor.actual_level);
+		
 		//Queue:
 		//Print(temp1);
 		//Print(temp2);
@@ -223,7 +224,7 @@ public class TreeTest {
 	//Do the minus operation and return a new Queue
 	public static Queue<Node> doMinus(Queue<Node> N1, Queue<Node> N2)
 	{
-		System.out.print("Minus Operation ");
+		System.out.println("\n" + "Minus Operation ");
 		Node temp, temp2, temp1;
 		Queue<Node> result = new LinkedList<Node>();
 		//Print(N1);
