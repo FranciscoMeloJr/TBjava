@@ -3,10 +3,8 @@ package package1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -246,7 +244,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 				int b = metricsNode2.get(i);
 				int total = a + b;
 				result.add(total);
-				//System.out.println(a + " " + b + " " + total);
+				// System.out.println(a + " " + b + " " + total);
 			}
 			fInformation = result;
 		}
@@ -336,7 +334,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 
 	// Level order traversal:
 	public static Queue<Node> levelOrderTraversal(Node startNode) {
-		//System.out.println("levelOrderTraversal");
+		// System.out.println("levelOrderTraversal");
 		Queue<Node> queue = new LinkedList<Node>();
 		Queue<Node> result = new LinkedList<Node>();
 		// Put the first node on the list
@@ -393,20 +391,20 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	// This method does creates a levelOrderTraversal and then does the sort:
 	public static Queue<Node> Sort(Node tree1) {
 		Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
-		//System.out.print("Entrance:" + Q1.size());
+		// System.out.print("Entrance:" + Q1.size());
 		Queue<Node> q1 = new LinkedList<Node>();
 		ArrayList<Node> AL2 = new ArrayList<>();
 		ArrayList<Node> AL3 = new ArrayList<>();
 
 		AL2 = convertQueue(Q1);
 
-		//System.out.print("AL size:" + AL3.size());
+		// System.out.print("AL size:" + AL3.size());
 
 		Collections.sort(AL2);
 		AL3 = mergeArrayList(AL2);
 
 		q1 = convertArrayList(AL3);
-		//System.out.print("Q1 size:" + q1.size());
+		// System.out.print("Q1 size:" + q1.size());
 		return q1;
 
 	}
@@ -417,15 +415,15 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		ArrayList<Node> XXX = new ArrayList<Node>();
 		Node newNode;
 		temp = AL;
-		//System.out.println(" Merge Array List");
-		//System.out.print("Before ");
-		//TreeTest.Print(Node.convertArrayList(AL));
+		// System.out.println(" Merge Array List");
+		// System.out.print("Before ");
+		// TreeTest.Print(Node.convertArrayList(AL));
 
 		for (int i = 1; i < temp.size(); i++) {
 			Node obj = temp.get(i);
 			for (int j = 0; j < temp.size(); j++) {
 				if (obj.equals(temp.get(j)) && (i != j)) {
-					//System.out.println(i + " Equals " + j);
+					// System.out.println(i + " Equals " + j);
 					obj.mergePositive(temp.get(j)); // merge
 					temp.remove(j);
 				}
@@ -433,8 +431,8 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 			}
 			XXX.add(obj);
 		}
-		//System.out.print("After merging ");
-		//TreeTest.Print(Node.convertArrayList(XXX));
+		// System.out.print("After merging ");
+		// TreeTest.Print(Node.convertArrayList(XXX));
 		return XXX;
 	}
 
@@ -497,7 +495,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	public static Queue<Node> convertArrayList(ArrayList<Node> tree) {
 
 		Queue<Node> queue = new LinkedList<Node>();
-		//System.out.println("tree size: " + tree.size());
+		// System.out.println("tree size: " + tree.size());
 		for (int i = 0; i < tree.size(); i++) {
 			queue.add(tree.get(i));
 		}
@@ -585,6 +583,64 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return temp;
 	}
 
+	// Minus
+	// Do the minus operation and return a new Queue
+	public static Queue<Node> doMinus(Queue<Node> N1, Queue<Node> N2) {
+		System.out.println("\n" + "Minus Operation ");
+		Node temp, temp2, temp1;
+		Queue<Node> result = new LinkedList<Node>();
+		
+		// Print(N1);
+		// Print(N2);
+		System.out.println("size" + N1.size() + " " + N2.size());
+		while (N1.size() > 0 && N2.size() > 0) {
+			// System.out.print("while");
+			temp1 = N1.poll();
+			temp2 = N2.poll();
+			// System.out.print(temp1.fInformation +" " + temp2.fInformation);
+			temp = Node.minus(temp1, temp2);
+			result.add(temp);
+		}
+		// System.out.print("while 2");
+		Queue<Node> newResult = Node.eliminateNull(result);
+		Queue<Node> newResult2 = Print(newResult);;
+		
+		// System.out.print("print");
+		return newResult2;
+	}
+
+	// This function just print queue
+	public static Queue<Node> Print(Queue<Node> N) {
+		System.out.print("Queue: ");
+		Node temp;
+		Queue<Node> queue = new LinkedList<Node>();
+		Queue<Node> aux = new LinkedList<Node>();
+		
+		queue = N;
+		while (!queue.isEmpty()) {
+			temp = queue.poll();
+			System.out.print(temp.fNameNode + " " + temp.fInformation);
+			aux.add(temp);
+		}
+		return aux;
+	}
+	// This function displays the differences:
+		public static void Display(Queue<Node> N) {
+			System.out.print("\n" + "Queue: " + N.size());
+			Node temp;
+			Queue<Node> queue = new LinkedList<Node>();
+			queue = N;
+			while (!queue.isEmpty()) {
+				temp = queue.poll();
+				System.out.print("[" + temp.fNameNode );
+				for(int i = 0; i<  Math.abs(temp.fInformation.get(0)); i++)
+				{
+					System.out.print("-");
+				}
+				System.out.print("]");
+			}
+
+		}
 	@Override
 	public int compareTo(Node d) {
 		return (this.fNameNode).compareToIgnoreCase(d.fNameNode);

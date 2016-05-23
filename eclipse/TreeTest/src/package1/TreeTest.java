@@ -116,24 +116,6 @@ public class TreeTest {
 		
 		return root;
 	}
-	public Node createTree3()
-	{
-		Node left = new Node(1, String.valueOf('A'));
-		Node right = new Node(2, String.valueOf('C'));
-		Node rightright = new Node(6, String.valueOf('G'));
-		Node leftleft = new Node(3, String.valueOf('D'));
-		Node rightleft = new Node(5, String.valueOf('F'));
-		Node leftright = new Node(4, String.valueOf('C'));
-
-		left.addNodeL(leftleft);
-		left.addNodeR(leftright);
-		right.addNodeR(rightright);
-		right.addNodeL(rightleft);
-
-		Node root = new Node(0, left, right, String.valueOf('A'));
-		
-		return root;
-	}
 	@Test
 	public void testCreateTree() {
 		System.out.println("Test");
@@ -162,14 +144,16 @@ public class TreeTest {
 		Queue<Node> temp2 = Node.Sort(root2);
 		//Queue<Node> temp3 = Node.Sort(root);
 		
+		Queue<Node> aux = Node.doMinus(temp1,temp2);
+		Node.Display(aux);
+		
 		// Showing expected x actual:
 		//System.out.println("Expected in" + Arrays.toString(expected_in));
 		//System.out.println("In ordr result" + orderVisitor.actual_in);
 		//System.out.println("level ordr" + orderVisitor.actual_level);
 		
-		//Queue:
-		//Print(temp1);
-		//Print(temp2);
+		//Display:
+		//Node.Display(Node.doMinus(temp1,temp2));
 		
 		// Asserts expect from counter visitor- actual_in
 		assertEquals(expected_in.length, counterVisitor.fCount);
@@ -178,7 +162,7 @@ public class TreeTest {
 		assertNotNull(orderVisitor.actual_in);
 		assertTrue(orderVisitor.actual_in != null);
 		//Assert True if temp1 and temp2 difference is different than null:
-		assertTrue(doMinus(temp1,temp2)!= null);
+		assertTrue(aux != null);
 		// Compare each one with the assertion
 		for (int i = 0; i < expected_in.length; i++) {
 			int a = expected_in[i];
@@ -191,59 +175,6 @@ public class TreeTest {
 
 		assertTrue("some test", true);
 
-		/*
-		
-		*/
-		// printPre(root);
-		// System.out.println(" ");
-		// printPos(root);
-		// System.out.println(" ");
-		// printIn(root);
-		/*
-		 * System.out.print(In(root)); System.out.println(" ");
-		 * System.out.print(Pre(root)); System.out.println(" ");
-		 * System.out.print(Pos(root)); System.out.println(" ");
-		 * System.out.printf(Boolean.toString(compare(right,root)));
-		 */
-
 	}
-	//This function just print queue
-	public static void Print(Queue<Node> N)
-	{
-		System.out.print("Queue: ");
-		Node temp;
-		Queue<Node> queue = new LinkedList<Node>();
-		queue = N;
-		while(!queue.isEmpty())
-		{	
-			temp = queue.poll();
-			System.out.print(temp.fNameNode +" " + temp.fInformation);
-		}
-		
-	}
-	//Do the minus operation and return a new Queue
-	public static Queue<Node> doMinus(Queue<Node> N1, Queue<Node> N2)
-	{
-		System.out.println("\n" + "Minus Operation ");
-		Node temp, temp2, temp1;
-		Queue<Node> result = new LinkedList<Node>();
-		//Print(N1);
-		//Print(N2);
-		System.out.println("size" + N1.size() + " " + N2.size());
-		while(N1.size() > 0 && N2.size() > 0) 
-		{	
-			//System.out.print("while");
-			temp1 = N1.poll();
-			temp2 = N2.poll();
-			//System.out.print(temp1.fInformation +" " +  temp2.fInformation);
-			temp = Node.minus(temp1,temp2);
-			result.add(temp);
-		}
-		//System.out.print("while 2");
-		Queue<Node> newResult = Node.eliminateNull(result);
-		Print(newResult);
-		//System.out.print("print");
-		return newResult;
-	}
-
+	
 }
