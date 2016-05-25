@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -59,47 +60,41 @@ public class TreeTest {
 		}
 
 	}
-	public Node merge(Node root, Node a, Node b){
-		root.addNodeL(a);
-		root.addNodeR(b);
-		return root;
-	}
-	public Node createTree(String[] labels, int[] numbers)
-	{
+
+	public Node createTree(String[] labels, int[] numbers) {
 		Node[] a = new Node[labels.length];
 		Node newNode = new Node();
-		
+
 		int i;
-		for(i = 0; i< labels.length; i++)
-		{
+		for (i = 0; i < labels.length; i++) {
 			a[i].fInformation.add(numbers[i]);
 			a[i].fNameNode = labels[i];
 		}
-		
-		Node temp = merge(a[i], a[i+1],a[i+2]);
+
+		Node temp = Node.merge(a[i], a[i + 1], a[i + 2]);
 		return temp;
 	}
-	public Node createTree1(String[] labels, int[] cargos)
-	{
-		//[0],[1],[2],[3],[4],[5],[6],[7],
+
+	public Node createTree1(String[] labels, int[] cargos) {
+		// [0],[1],[2],[3],[4],[5],[6],[7],
 		Node left = new Node(cargos[1], labels[1]);
 		Node right = new Node(cargos[2], labels[2]);
 		Node rightright = new Node(cargos[3], labels[3]);
 		Node leftleft = new Node(cargos[4], labels[4]);
 		Node rightleft = new Node(cargos[5], labels[5]);
 		Node leftright = new Node(cargos[6], labels[6]);
-		
+
 		left.addNodeL(leftleft);
 		left.addNodeR(leftright);
 		right.addNodeR(rightright);
 		right.addNodeL(rightleft);
 
 		Node root = new Node(cargos[0], left, right, labels[0]);
-		
+
 		return root;
 	}
-	public Node createTree2()
-	{
+
+	public Node createTree2() {
 		Node left = new Node(1, String.valueOf('A'));
 		Node right = new Node(2, String.valueOf('C'));
 		Node rightright = new Node(6, String.valueOf('G'));
@@ -113,68 +108,50 @@ public class TreeTest {
 		right.addNodeL(rightleft);
 
 		Node root = new Node(0, left, right, String.valueOf('A'));
-		
+
 		return root;
 	}
+
+	public Tree createTree(int x) {
+		System.out.println("createTRee");
+		Tree root = new Tree(x, "root", null);
+		Tree temp = null;
+		/*
+		 * for(int i=0;i<10;i++) { Random r = new Random(); char c =
+		 * (char)(r.nextInt(26) + 'a'); temp = new Tree(0, String.valueOf(c),
+		 * null); }
+		 */
+		temp = new Tree(x + 1, String.valueOf('A'), null);
+		root.addNode(temp);
+		temp = new Tree(x + 2, String.valueOf('B'), null);
+		root.addNode(temp);
+		temp = new Tree(x + 3, String.valueOf('C'), null);
+		root.addNode(temp);
+		return root;
+	}
+
 	@Test
 	public void testCreateTree() {
 		System.out.println("Test");
-		String[] labels = {"A","A","A","A","D","F","E"};
-		int[] cargos = {0, 1, 2, 3, 4, 5, 6};
-		Node root = createTree1(labels,cargos);
-		
-		String[] labels2 = {"A","A","A","A","D","F","E"};
-		int[] cargos2 = {0, 2, 3, 4, 5, 6, 7};
-		Node root2 = createTree1(labels,cargos2);
 
-		root.PosOrder(root);
+		Tree root = createTree(1);
+		Tree root2 = createTree(2);
+		System.out.println("Sort");
+		// Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
+		Queue<Tree> temp1 = Tree.Sort(root);
+		System.out.println("Print");
+		Tree.Print(temp1);
+		
+		// Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
+		Queue<Tree> temp2 = Tree.Sort(root2);
+		Tree.Print(temp2);
+		// Queue<Node> temp3 = Node.Sort(root);
 
-		Integer[] expected_in = new Integer[] { 3, 1, 4, 0, 5, 2, 6 };
-		Integer[] expected_level = new Integer[] { 0, 1, 2, 3, 4, 5, 6 };
-
-		OrderVisitor orderVisitor = new OrderVisitor();
-		Node.printIn(root, orderVisitor);
-
-		CounterVisitor counterVisitor = new CounterVisitor();
-		Node.printIn(root, counterVisitor);
-		
-		//Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
-		Queue<Node> temp1 = Node.Sort(root);
-		//Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
-		Queue<Node> temp2 = Node.Sort(root2);
-		//Queue<Node> temp3 = Node.Sort(root);
-		
-		Queue<Node> aux = Node.doMinus(temp1,temp2);
-		Node.Display(aux);
-		
-		// Showing expected x actual:
-		//System.out.println("Expected in" + Arrays.toString(expected_in));
-		//System.out.println("In ordr result" + orderVisitor.actual_in);
-		//System.out.println("level ordr" + orderVisitor.actual_level);
-		
-		//Display:
-		//Node.Display(Node.doMinus(temp1,temp2));
-		
-		// Asserts expect from counter visitor- actual_in
-		assertEquals(expected_in.length, counterVisitor.fCount);
-		assertTrue(expected_in.length == orderVisitor.actual_in.size());
-		assertEquals(expected_in.length, orderVisitor.actual_in.size());
-		assertNotNull(orderVisitor.actual_in);
-		assertTrue(orderVisitor.actual_in != null);
-		//Assert True if temp1 and temp2 difference is different than null:
-		assertTrue(aux != null);
-		// Compare each one with the assertion
-		for (int i = 0; i < expected_in.length; i++) {
-			int a = expected_in[i];
-			int b = orderVisitor.actual_in.get(i);
-			assertTrue(a == b);
-		}
-
-		// Node.levelOrderTraversal(root);
-		// Node.levelOrderTraversal(root2);
+		Queue<Tree> aux = Tree.doMinus(temp1, temp2);
+		Tree.Display(aux);
 
 		assertTrue("some test", true);
 
 	}
-	
+
 }

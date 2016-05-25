@@ -149,6 +149,13 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return false;
 	}
 
+	public static Node merge(Node root, Node a, Node b) {
+		root.addNodeL(a);
+		root.addNodeR(b);
+		return root;
+	}
+
+	// This function does the pre-order
 	public ArrayList<Integer> PreOrder(Node tree) {
 
 		System.out.println("x");
@@ -173,6 +180,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return out;
 	}
 
+	// This function do the pos order:
 	public ArrayList<String> PosOrder(Node root) {
 		System.out.println("Pos");
 		Stack<Node> S = new Stack<>();
@@ -388,7 +396,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return result;
 	}
 
-	// This method does creates a levelOrderTraversal and then does the sort:
+	// This method creates a levelOrderTraversal and then does the sort:
 	public static Queue<Node> Sort(Node tree1) {
 		Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
 		// System.out.print("Entrance:" + Q1.size());
@@ -589,7 +597,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		System.out.println("\n" + "Minus Operation ");
 		Node temp, temp2, temp1;
 		Queue<Node> result = new LinkedList<Node>();
-		
+
 		// Print(N1);
 		// Print(N2);
 		System.out.println("size" + N1.size() + " " + N2.size());
@@ -603,8 +611,9 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		}
 		// System.out.print("while 2");
 		Queue<Node> newResult = Node.eliminateNull(result);
-		Queue<Node> newResult2 = Print(newResult);;
-		
+		Queue<Node> newResult2 = Print(newResult);
+		;
+
 		// System.out.print("print");
 		return newResult2;
 	}
@@ -615,7 +624,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		Node temp;
 		Queue<Node> queue = new LinkedList<Node>();
 		Queue<Node> aux = new LinkedList<Node>();
-		
+
 		queue = N;
 		while (!queue.isEmpty()) {
 			temp = queue.poll();
@@ -624,23 +633,24 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		}
 		return aux;
 	}
-	// This function displays the differences:
-		public static void Display(Queue<Node> N) {
-			System.out.print("\n" + "Queue: " + N.size());
-			Node temp;
-			Queue<Node> queue = new LinkedList<Node>();
-			queue = N;
-			while (!queue.isEmpty()) {
-				temp = queue.poll();
-				System.out.print("[" + temp.fNameNode );
-				for(int i = 0; i<  Math.abs(temp.fInformation.get(0)); i++)
-				{
-					System.out.print("-");
-				}
-				System.out.print("]");
-			}
 
+	// This function displays the differences:
+	public static void Display(Queue<Node> N) {
+		System.out.print("\n" + "Queue: " + N.size());
+		Node temp;
+		Queue<Node> queue = new LinkedList<Node>();
+		queue = N;
+		while (!queue.isEmpty()) {
+			temp = queue.poll();
+			System.out.print("[" + temp.fNameNode);
+			for (int i = 0; i < Math.abs(temp.fInformation.get(0)); i++) {
+				System.out.print("-");
+			}
+			System.out.print("]");
 		}
+
+	}
+
 	@Override
 	public int compareTo(Node d) {
 		return (this.fNameNode).compareToIgnoreCase(d.fNameNode);
