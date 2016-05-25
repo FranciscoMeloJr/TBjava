@@ -30,7 +30,8 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 		finformation = new ArrayList();
 		this.finformation.add(cargo);
 		this.fNameNode = label;
-		this.nodes.add(new_branch);
+		if (new_branch != null)
+			this.nodes.add(new_branch);
 	}
 
 	public Tree(Tree new_branch1, Tree new_branch2) {
@@ -66,6 +67,11 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 		fNameNode = label;
 	}
 
+	public String toString() {
+		return (fNameNode + " " + finformation.size() + " " + nodes.size());
+
+	}
+
 	// Pos order:
 	public static void printPos(Tree tree) {
 		if (tree == null)
@@ -87,14 +93,14 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 
 	// This method creates a levelOrderTraversal and then does the sort:
 	public static Queue<Tree> Sort(Tree tree1) {
-		System.out.println("SortTree 1");
+
 		Queue<Tree> Q1 = Tree.levelOrderTraversal(tree1);
-		System.out.println("SortTree 1.3");
+
 		// System.out.print("Entrance:" + Q1.size());
 		Queue<Tree> q1 = new LinkedList<Tree>();
 		ArrayList<Tree> AL2 = new ArrayList<>();
 		ArrayList<Tree> AL3 = new ArrayList<>();
-		System.out.println("SortTree 1.5");
+
 		AL2 = convertQueue(Q1);
 
 		// System.out.print("AL size:" + AL3.size());
@@ -104,7 +110,6 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 
 		q1 = convertArrayList(AL3);
 		// System.out.print("Q1 size:" + q1.size());
-		System.out.println("SortTree 2");
 		return q1;
 
 	}
@@ -130,7 +135,6 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 		// System.out.print("while 2");
 		Queue<Tree> newResult = Tree.eliminateNull(result);
 		Queue<Tree> newResult2 = Print(newResult);
-		;
 
 		// System.out.print("print");
 		return newResult2;
@@ -138,12 +142,9 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 
 	// This function displays the differences:
 	public static void Display(Queue<Tree> N) {
-		System.out.print("\n" + "Queue: " + N.size());
-		Tree temp;
-		Queue<Tree> queue = new LinkedList<Tree>();
-		queue = N;
-		while (!queue.isEmpty()) {
-			temp = queue.poll();
+		System.out.print("\n" + "Queue size:" + N.size() + " ");
+		
+		for (Tree temp : N) {
 			System.out.print("[" + temp.fNameNode);
 			for (int i = 0; i < Math.abs(temp.finformation.get(0)); i++) {
 				System.out.print("-");
@@ -153,7 +154,7 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 
 	}
 
-	// This function perfors the minus operation
+	// This function performs the minus operation
 	public static Tree minus(Tree node1, Tree node2) {
 
 		// System.out.print("Minus");
@@ -181,17 +182,9 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 	// This function prints the queue
 	public static Queue<Tree> Print(Queue<Tree> N) {
 		System.out.print("Queue: ");
-		Tree temp;
-		Queue<Tree> queue = new LinkedList<Tree>();
-		Queue<Tree> aux = new LinkedList<Tree>();
-
-		queue = N;
-		while (!queue.isEmpty()) {
-			temp = queue.poll();
-			System.out.print(temp.fNameNode + " " + temp.finformation);
-			aux.add(temp);
-		}
-		return aux;
+		for (Tree t : N)
+			System.out.print(t.fNameNode + " " + t.finformation);
+		return N;
 	}
 
 	// This function eliminates the null:
@@ -257,7 +250,7 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 
 	// This method converts Queues into ArrayList
 	public static ArrayList<Tree> convertQueue(Queue tree) {
-		System.out.println("convertQueue");
+
 		ArrayList<Tree> Q2 = new ArrayList<>();
 
 		Tree temp;
@@ -273,7 +266,7 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 
 	// This method converts ArrayList into Queues
 	public static Queue<Tree> convertArrayList(ArrayList<Tree> tree) {
-		System.out.println("convertArrayList");
+
 		Queue<Tree> queue = new LinkedList<Tree>();
 		// System.out.println("tree size: " + tree.size());
 		for (int i = 0; i < tree.size(); i++) {
@@ -284,25 +277,25 @@ public class Tree implements Comparator<Node>, Comparable<Node> {
 
 	// Level order traversal:
 	public static Queue<Tree> levelOrderTraversal(Tree startNode) {
-		System.out.println("levelOrderTraversal");
+
 		Queue<Tree> queue = new LinkedList<Tree>();
 		Queue<Tree> result = new LinkedList<Tree>();
 		// Put the first node on the list
 
 		Tree tempNode;
 		queue.add(startNode);
+
 		while (!queue.isEmpty()) {
 
 			tempNode = queue.poll();
 			result.add(tempNode); // put in the result
 
-			System.out.print(" " + tempNode.fNameNode + " ");
-
-			for (Tree t : startNode.nodes) {
-				queue.add(t);
+			for (int i = 0; i < tempNode.nodes.size(); i++) {
+				queue.add(tempNode.nodes.get(i));
 			}
+
 		}
-		System.out.println("level 1");
+
 		return result;
 	}
 

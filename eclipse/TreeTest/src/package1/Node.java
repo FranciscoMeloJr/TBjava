@@ -148,14 +148,12 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		/* 3. one empty, one not -> false */
 		return false;
 	}
-
-	public static Node merge(Node root, Node a, Node b) {
+	public static Node merge(Node root, Node a, Node b){
 		root.addNodeL(a);
 		root.addNodeR(b);
 		return root;
 	}
-
-	// This function does the pre-order
+	//This function does the pre-order
 	public ArrayList<Integer> PreOrder(Node tree) {
 
 		System.out.println("x");
@@ -179,8 +177,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		System.out.print(out.toString());
 		return out;
 	}
-
-	// This function do the pos order:
+	//This function do the pos order:
 	public ArrayList<String> PosOrder(Node root) {
 		System.out.println("Pos");
 		Stack<Node> S = new Stack<>();
@@ -396,7 +393,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return result;
 	}
 
-	// This method creates a levelOrderTraversal and then does the sort:
+	// This method does creates a levelOrderTraversal and then does the sort:
 	public static Queue<Node> Sort(Node tree1) {
 		Queue<Node> Q1 = Node.levelOrderTraversal(tree1);
 		// System.out.print("Entrance:" + Q1.size());
@@ -420,8 +417,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	// This function merges nodes with the same label:
 	public static ArrayList<Node> mergeArrayList(ArrayList<Node> AL) {
 		ArrayList<Node> temp = new ArrayList<Node>();
-		ArrayList<Node> XXX = new ArrayList<Node>();
-		Node newNode;
+		ArrayList<Node> merged = new ArrayList<Node>();
 		temp = AL;
 		// System.out.println(" Merge Array List");
 		// System.out.print("Before ");
@@ -437,11 +433,11 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 				}
 
 			}
-			XXX.add(obj);
+			merged.add(obj);
 		}
 		// System.out.print("After merging ");
 		// TreeTest.Print(Node.convertArrayList(XXX));
-		return XXX;
+		return merged;
 	}
 
 	// This function merges multiple occurrences in >one Node<
@@ -597,7 +593,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		System.out.println("\n" + "Minus Operation ");
 		Node temp, temp2, temp1;
 		Queue<Node> result = new LinkedList<Node>();
-
+		
 		// Print(N1);
 		// Print(N2);
 		System.out.println("size" + N1.size() + " " + N2.size());
@@ -611,46 +607,36 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		}
 		// System.out.print("while 2");
 		Queue<Node> newResult = Node.eliminateNull(result);
-		Queue<Node> newResult2 = Print(newResult);
-		;
-
+		Queue<Node> newResult2 = Print(newResult);;
+		
 		// System.out.print("print");
 		return newResult2;
 	}
 
-	// This function just print queue
+	// This function prints the queue
 	public static Queue<Node> Print(Queue<Node> N) {
 		System.out.print("Queue: ");
-		Node temp;
-		Queue<Node> queue = new LinkedList<Node>();
-		Queue<Node> aux = new LinkedList<Node>();
-
-		queue = N;
-		while (!queue.isEmpty()) {
-			temp = queue.poll();
-			System.out.print(temp.fNameNode + " " + temp.fInformation);
-			aux.add(temp);
-		}
-		return aux;
+		for(Node t: N)
+			System.out.print(t.fNameNode + " " + t.fInformation);
+		return N;
 	}
-
 	// This function displays the differences:
-	public static void Display(Queue<Node> N) {
-		System.out.print("\n" + "Queue: " + N.size());
-		Node temp;
-		Queue<Node> queue = new LinkedList<Node>();
-		queue = N;
-		while (!queue.isEmpty()) {
-			temp = queue.poll();
-			System.out.print("[" + temp.fNameNode);
-			for (int i = 0; i < Math.abs(temp.fInformation.get(0)); i++) {
-				System.out.print("-");
+		public static void Display(Queue<Node> N) {
+			System.out.print("\n" + "Queue: " + N.size());
+			Node temp;
+			Queue<Node> queue = new LinkedList<Node>();
+			queue = N;
+			while (!queue.isEmpty()) {
+				temp = queue.poll();
+				System.out.print("[" + temp.fNameNode );
+				for(int i = 0; i<  Math.abs(temp.fInformation.get(0)); i++)
+				{
+					System.out.print("-");
+				}
+				System.out.print("]");
 			}
-			System.out.print("]");
+
 		}
-
-	}
-
 	@Override
 	public int compareTo(Node d) {
 		return (this.fNameNode).compareToIgnoreCase(d.fNameNode);

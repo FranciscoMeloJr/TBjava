@@ -113,7 +113,6 @@ public class TreeTest {
 	}
 
 	public Tree createTree(int x) {
-		System.out.println("createTRee");
 		Tree root = new Tree(x, "root", null);
 		Tree temp = null;
 		/*
@@ -127,6 +126,8 @@ public class TreeTest {
 		root.addNode(temp);
 		temp = new Tree(x + 3, String.valueOf('C'), null);
 		root.addNode(temp);
+		temp = new Tree(x + 4, String.valueOf('D'), null);
+		root.addNode(temp);
 		return root;
 	}
 
@@ -134,22 +135,28 @@ public class TreeTest {
 	public void testCreateTree() {
 		System.out.println("Test");
 
-		Tree root = createTree(1);
+		Tree root = createTree(3);
 		Tree root2 = createTree(2);
-		System.out.println("Sort");
+		Queue<Tree> temp1, temp2;
+		Queue<Tree> aux;
+		
 		// Queue<Node> temp1 = Node.levelOrderTraversal(root, orderVisitor);
-		Queue<Tree> temp1 = Tree.Sort(root);
-		System.out.println("Print");
+		temp1 = Tree.Sort(root);
 		Tree.Print(temp1);
 		
 		// Queue<Node> temp2 = Node.levelOrderTraversal(root2, orderVisitor);
-		Queue<Tree> temp2 = Tree.Sort(root2);
+		
+		temp2 = Tree.Sort(root2);
+		System.out.println("\n Size 1 : "+ temp1.size());
+		System.out.println("\n Size 2 : "+temp2.size());
+		
 		Tree.Print(temp2);
 		// Queue<Node> temp3 = Node.Sort(root);
 
-		Queue<Tree> aux = Tree.doMinus(temp1, temp2);
+		aux =  Tree.doMinus(temp1, temp2);
 		Tree.Display(aux);
-
+		
+		assertTrue(aux.size() == 4);
 		assertTrue("some test", true);
 
 	}
